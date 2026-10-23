@@ -586,6 +586,16 @@
       text-align: center;
     }
 
+    .rail-item .muted-badge {
+      position: absolute;
+      bottom: -3px;
+      left: -3px;
+      font-size: 11px;
+      line-height: 1;
+      filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.8));
+      pointer-events: none;
+    }
+
     .rail-item.unreachable {
       opacity: .4;
       cursor: pointer;
@@ -633,7 +643,7 @@
       color: var(--signal);
       font-size: 20px;
       transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
     }
 
     .rail-item.explore:hover {
@@ -720,7 +730,8 @@
       transition: all 0.15s ease;
     }
 
-    .dir-chip.active, .dir-chip:hover {
+    .dir-chip.active,
+    .dir-chip:hover {
       background: var(--signal-dim);
       color: var(--signal);
       border-color: var(--signal);
@@ -749,7 +760,7 @@
     .dir-card:hover {
       border-color: rgba(79, 224, 196, 0.45);
       transform: translateY(-2px);
-      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
     }
 
     .dir-card-head {
@@ -826,7 +837,7 @@
       justify-content: space-between;
       margin-top: auto;
       padding-top: 8px;
-      border-top: 1px solid rgba(255,255,255,0.04);
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
     }
 
     .dir-card-meta {
@@ -2103,9 +2114,11 @@
         background: rgba(79, 224, 196, 0.35);
         box-shadow: 0 0 20px rgba(79, 224, 196, 0.35);
       }
+
       40% {
         background: rgba(79, 224, 196, 0.22);
       }
+
       100% {
         background: transparent;
         box-shadow: none;
@@ -2137,7 +2150,7 @@
       display: none !important;
     }
 
-    .composer-reply-bar:not(.hidden) + .composer-inner {
+    .composer-reply-bar:not(.hidden)+.composer-inner {
       border-top-left-radius: 0;
       border-top-right-radius: 0;
     }
@@ -2147,6 +2160,7 @@
         opacity: 0;
         transform: translateY(6px);
       }
+
       100% {
         opacity: 1;
         transform: translateY(0);
@@ -2288,6 +2302,7 @@
         opacity: 0;
         transform: scale(0.85) translateY(6px);
       }
+
       100% {
         opacity: 1;
         transform: scale(1) translateY(0);
@@ -2335,40 +2350,204 @@
       transform: scale(1.1);
     }
 
-    .emoji-grid-panel {
+    .emoji-picker-container {
       position: fixed;
       z-index: 10001;
-      background: #131822;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.75);
-      border-radius: 14px;
-      padding: 10px;
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 6px;
-      max-height: 240px;
-      overflow-y: auto;
-      backdrop-filter: blur(12px);
-      animation: popoverScaleIn 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+      background: #131823;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(79, 224, 196, 0.12);
+      border-radius: 16px;
+      width: 360px;
+      max-width: calc(100vw - 20px);
+      height: 420px;
+      max-height: calc(100vh - 30px);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      backdrop-filter: blur(16px);
+      animation: popoverScaleIn 0.16s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .emoji-grid-panel button {
+    .emoji-picker-header {
+      padding: 10px 12px 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: rgba(15, 20, 30, 0.7);
+    }
+
+    .emoji-search-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .emoji-search-input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      padding: 7px 10px 7px 30px;
+      color: var(--text);
+      font-size: 13px;
+      outline: none;
+      transition: all 0.15s ease;
+    }
+
+    .emoji-search-input:focus {
+      border-color: var(--signal);
+      background: rgba(255, 255, 255, 0.09);
+      box-shadow: 0 0 0 2px rgba(79, 224, 196, 0.2);
+    }
+
+    .emoji-search-icon {
+      position: absolute;
+      left: 9px;
+      font-size: 13px;
+      color: var(--text-dim);
+      pointer-events: none;
+    }
+
+    .emoji-tabs-bar {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+    }
+    .emoji-tabs-bar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .emoji-tab-btn {
+      background: none;
+      border: none;
+      font-size: 17px;
+      padding: 4px 6px;
+      border-radius: 6px;
+      cursor: pointer;
+      line-height: 1;
+      opacity: 0.6;
+      transition: all 0.12s;
+    }
+
+    .emoji-tab-btn:hover {
+      opacity: 1;
+      background: rgba(255, 255, 255, 0.08);
+      transform: scale(1.15);
+    }
+
+    .emoji-tab-btn.active {
+      opacity: 1;
+      background: rgba(79, 224, 196, 0.15);
+      border-bottom: 2px solid var(--signal);
+    }
+
+    .emoji-picker-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+    }
+
+    .emoji-category-section {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .emoji-category-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-dim);
+      padding: 2px 4px;
+      position: sticky;
+      top: -8px;
+      background: #131823;
+      z-index: 2;
+    }
+
+    .emoji-grid {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 4px;
+    }
+
+    .emoji-grid button.emoji-cell {
       background: none;
       border: none;
       font-size: 22px;
-      padding: 6px;
+      height: 36px;
+      width: 36px;
       cursor: pointer;
       border-radius: 8px;
-      transition: background 0.12s, transform 0.12s;
       display: flex;
       align-items: center;
       justify-content: center;
       line-height: 1;
+      transition: background 0.12s, transform 0.12s;
+      user-select: none;
     }
 
-    .emoji-grid-panel button:hover {
+    .emoji-grid button.emoji-cell:hover {
       background: rgba(255, 255, 255, 0.12);
-      transform: scale(1.22);
+      transform: scale(1.28);
+    }
+
+    .emoji-picker-footer {
+      padding: 8px 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(15, 20, 30, 0.85);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .emoji-custom-input {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 6px;
+      padding: 6px 9px;
+      color: var(--text);
+      font-size: 12px;
+      outline: none;
+    }
+
+    .emoji-custom-input:focus {
+      border-color: var(--signal);
+      background: rgba(255, 255, 255, 0.09);
+    }
+
+    .emoji-custom-btn {
+      background: var(--signal);
+      color: #04211c;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+
+    .emoji-custom-btn:hover {
+      opacity: 0.9;
+    }
+
+    .emoji-empty-search {
+      padding: 30px 10px;
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 13px;
     }
 
     .floating-toast {
@@ -3002,6 +3181,8 @@
       <div class="sidebar-head">
         <div class="head-row"><button class="mobile-back" id="btnBackToRail" title="Retour aux serveurs">‹</button>
           <h2 id="serverName">—</h2>
+          <button class="icon-btn" id="btnToggleMuteServer" title="Rendre ce serveur muet / réactiver les notifications"
+            style="font-size:14px;padding:3px;width:28px;height:28px;display:none;align-items:center;justify-content:center;border-radius:6px;flex-shrink:0;">🔔</button>
         </div>
         <div class="fp" id="serverInfo"></div>
         <span class="role-badge hidden" id="roleBadge"></span>
@@ -3075,8 +3256,38 @@
 
     let CURRENT = {
       username: null, vaultKey: null, privateKey: null, publicJwk: null, fingerprint: null, avatar: null,
-      bio: '', shareServerList: true, hiddenServers: []
+      bio: '', shareServerList: true, hiddenServers: [],
+      mutedServers: [], mutedUsers: []
     };
+
+    /* ================= SERVEURS PAR DÉFAUT ================= */
+    const DEFAULT_SERVERS = [
+      { host: 'msg1.playnix.fr', port: 25580, label: 'msg1.playnix.fr', kindHint: 'channels', dualChoiceMade: 'both' },
+      { host: 'msg1.playnix.fr', port: 25580, label: 'msg1.playnix.fr', kindHint: 'mp', dualChoiceMade: 'both' }
+    ];
+    function getDefaultServers() {
+      return JSON.parse(JSON.stringify(DEFAULT_SERVERS));
+    }
+    function isDefaultServer(cOrHost, port, kindHint) {
+      if (!cOrHost) return false;
+      let host, p, kind;
+      if (typeof cOrHost === 'object') {
+        host = cOrHost.host;
+        p = cOrHost.port;
+        kind = cOrHost.type || cOrHost.kindHint;
+      } else {
+        host = cOrHost;
+        p = port;
+        kind = kindHint;
+      }
+      const h = String(host || '').toLowerCase().trim();
+      const portStr = String(p || '').trim();
+      return DEFAULT_SERVERS.some(d =>
+        d.host.toLowerCase().trim() === h &&
+        String(d.port).trim() === portStr &&
+        (!kind || !d.kindHint || d.kindHint === kind)
+      );
+    }
 
     async function registerUser(username, password) {
       if (!isSafeUsernameKey(username)) throw new Error('Pseudo invalide.');
@@ -3088,7 +3299,7 @@
       const pubJwk = await exportPub(kp.publicKey);
       const privJwk = await crypto.subtle.exportKey('jwk', kp.privateKey);
       const wrapped = await aesEncrypt(vaultKey, JSON.stringify(privJwk));
-      db[username] = { salt: b64(salt), pubJwk, wrappedPriv: wrapped, servers: [], avatar: null, iterations: PBKDF2_ITERATIONS_CURRENT };
+      db[username] = { salt: b64(salt), pubJwk, wrappedPriv: wrapped, servers: getDefaultServers(), defaultServersApplied: true, avatar: null, iterations: PBKDF2_ITERATIONS_CURRENT };
       saveUsersDb(db);
       return loginUser(username, password);
     }
@@ -3107,14 +3318,52 @@
       const fp = await fingerprintOf(rec.pubJwk);
       CURRENT = {
         username, vaultKey, privateKey, publicJwk: rec.pubJwk, fingerprint: fp, avatar: rec.avatar || null,
-        bio: rec.bio || '', shareServerList: rec.shareServerList !== false, hiddenServers: rec.hiddenServers || []
+        bio: rec.bio || '', shareServerList: rec.shareServerList !== false, hiddenServers: rec.hiddenServers || [],
+        mutedServers: rec.mutedServers || [], mutedUsers: rec.mutedUsers || []
       };
       if (!rec.servers) rec.servers = [];
+      if (!rec.defaultServersApplied) {
+        for (const def of getDefaultServers()) {
+          if (!rec.servers.some(s => s.host === def.host && String(s.port) === String(def.port) && s.kindHint === def.kindHint)) {
+            rec.servers.push(def);
+          }
+        }
+        rec.defaultServersApplied = true;
+        saveUsersDb(db);
+      }
       await loadSavedRoomKeys();
       return CURRENT;
     }
-    function persistMyServerList(list) { const db = loadUsersDb(); db[CURRENT.username].servers = list; saveUsersDb(db); }
-    function myServerList() { const db = loadUsersDb(); return (db[CURRENT.username] && db[CURRENT.username].servers) || []; }
+    function persistMyServerList(list) {
+      const db = loadUsersDb();
+      if (CURRENT.username && db[CURRENT.username]) {
+        for (const def of getDefaultServers()) {
+          if (!list.some(s => s.host === def.host && String(s.port) === String(def.port) && s.kindHint === def.kindHint)) {
+            list.push(def);
+          }
+        }
+        db[CURRENT.username].servers = list;
+        saveUsersDb(db);
+      }
+    }
+    function myServerList() {
+      const db = loadUsersDb();
+      if (!CURRENT.username || !db[CURRENT.username]) return [];
+      const rec = db[CURRENT.username];
+      if (!rec.servers) rec.servers = [];
+      let changed = false;
+      for (const def of getDefaultServers()) {
+        if (!rec.servers.some(s => s.host === def.host && String(s.port) === String(def.port) && s.kindHint === def.kindHint)) {
+          rec.servers.push(def);
+          changed = true;
+        }
+      }
+      if (changed || !rec.defaultServersApplied) {
+        rec.defaultServersApplied = true;
+        saveUsersDb(db);
+      }
+      return rec.servers;
+    }
     function persistMyAvatar(dataUrl) { const db = loadUsersDb(); db[CURRENT.username].avatar = dataUrl; saveUsersDb(db); CURRENT.avatar = dataUrl; broadcastProfileToServers(); }
 
     /* ---- "rester connecté" : on retient la clé de coffre déjà déverrouillée (pas le mot de
@@ -3143,9 +3392,19 @@
         const fp = await fingerprintOf(rec.pubJwk);
         CURRENT = {
           username: saved.username, vaultKey, privateKey, publicJwk: rec.pubJwk, fingerprint: fp, avatar: rec.avatar || null,
-          bio: rec.bio || '', shareServerList: rec.shareServerList !== false, hiddenServers: rec.hiddenServers || []
+          bio: rec.bio || '', shareServerList: rec.shareServerList !== false, hiddenServers: rec.hiddenServers || [],
+          mutedServers: rec.mutedServers || [], mutedUsers: rec.mutedUsers || []
         };
         if (!rec.servers) rec.servers = [];
+        if (!rec.defaultServersApplied) {
+          for (const def of getDefaultServers()) {
+            if (!rec.servers.some(s => s.host === def.host && String(s.port) === String(def.port) && s.kindHint === def.kindHint)) {
+              rec.servers.push(def);
+            }
+          }
+          rec.defaultServersApplied = true;
+          saveUsersDb(db);
+        }
         await loadSavedRoomKeys();
         return true;
       } catch (e) { clearRememberedSession(); return false; }
@@ -3204,7 +3463,7 @@
         if (!db[CURRENT.username]) return;
         db[CURRENT.username].wrappedKeys = await aesEncrypt(CURRENT.vaultKey, JSON.stringify(SAVED_ROOM_KEYS));
         saveUsersDb(db);
-      } catch (e) {}
+      } catch (e) { }
     }
 
     async function restoreSavedGroupKey(c, groupId) {
@@ -3259,7 +3518,7 @@
       const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
-      a.href = url; a.download = `mesh-identity-${CURRENT.username}.json`;
+      a.href = url; a.download = `MSG-identity-${CURRENT.username}.json`;
       document.body.appendChild(a); a.click(); a.remove();
       setTimeout(() => URL.revokeObjectURL(url), 4000);
     }
@@ -3341,11 +3600,55 @@
     }
     function persistMyProfile() {
       const db = loadUsersDb();
-      db[CURRENT.username].bio = CURRENT.bio;
-      db[CURRENT.username].shareServerList = CURRENT.shareServerList;
-      db[CURRENT.username].hiddenServers = CURRENT.hiddenServers;
-      saveUsersDb(db);
+      if (CURRENT.username && db[CURRENT.username]) {
+        db[CURRENT.username].bio = CURRENT.bio;
+        db[CURRENT.username].shareServerList = CURRENT.shareServerList;
+        db[CURRENT.username].hiddenServers = CURRENT.hiddenServers;
+        db[CURRENT.username].mutedServers = CURRENT.mutedServers || [];
+        db[CURRENT.username].mutedUsers = CURRENT.mutedUsers || [];
+        saveUsersDb(db);
+      }
       broadcastProfileToServers(); // notifie tous les serveurs déjà connectés (ils rediffuseront ces infos à leur roster)
+    }
+
+    function isServerMuted(cOrKey) {
+      if (!cOrKey) return false;
+      const key = typeof cOrKey === 'object' ? (cOrKey.key || connKey(cOrKey.host, cOrKey.port, cOrKey.type || cOrKey.kindHint)) : cOrKey;
+      const mutedList = CURRENT.mutedServers || [];
+      if (mutedList.includes(key)) return true;
+      if (typeof cOrKey === 'object') {
+        const hp = `${cOrKey.host}:${cOrKey.port}`;
+        if (mutedList.includes(hp)) return true;
+      }
+      return false;
+    }
+
+    function isUserMuted(fp) {
+      if (!fp) return false;
+      return (CURRENT.mutedUsers || []).includes(fp);
+    }
+
+    function toggleMuteServer(cOrKey) {
+      const key = typeof cOrKey === 'object' ? cOrKey.key : cOrKey;
+      if (!key) return;
+      if (!CURRENT.mutedServers) CURRENT.mutedServers = [];
+      const idx = CURRENT.mutedServers.indexOf(key);
+      if (idx >= 0) CURRENT.mutedServers.splice(idx, 1);
+      else CURRENT.mutedServers.push(key);
+      persistMyProfile();
+      renderRail();
+      renderSidebar();
+    }
+
+    function toggleMuteUser(fp) {
+      if (!fp) return;
+      if (!CURRENT.mutedUsers) CURRENT.mutedUsers = [];
+      const idx = CURRENT.mutedUsers.indexOf(fp);
+      if (idx >= 0) CURRENT.mutedUsers.splice(idx, 1);
+      else CURRENT.mutedUsers.push(fp);
+      persistMyProfile();
+      renderSidebar();
+      renderMain();
     }
     function renameCurrentUser(newUsername) {
       const username = newUsername.trim();
@@ -3389,10 +3692,18 @@
     function ensureNotificationPermission() {
       if ('Notification' in window && Notification.permission === 'default') Notification.requestPermission().catch(() => { });
     }
-    function bumpUnread(map, key) { map.set(key, (map.get(key) || 0) + 1); renderSidebar(); renderRail(); }
+    function bumpUnread(map, key, opts = {}) {
+      if (opts.server && isServerMuted(opts.server)) return;
+      if (opts.fromFp && isUserMuted(opts.fromFp)) return;
+      map.set(key, (map.get(key) || 0) + 1);
+      renderSidebar();
+      renderRail();
+    }
     function clearUnread(map, key) { if (map.has(key) && map.get(key) > 0) { map.set(key, 0); } }
     function sumUnread(map) { let t = 0; for (const v of map.values()) t += v; return t; }
-    function notifyUser(title, body) {
+    function notifyUser(title, body, opts = {}) {
+      if (opts.server && isServerMuted(opts.server)) return;
+      if (opts.fromFp && isUserMuted(opts.fromFp)) return;
       soundNotify();
       if (document.visibilityState === 'visible' && document.hasFocus()) return;
       if ('Notification' in window && Notification.permission === 'granted') {
@@ -3423,7 +3734,7 @@
         try {
           const replyTo = JSON.parse(match[1]);
           return { replyTo, cleanText: match[2] };
-        } catch (e) {}
+        } catch (e) { }
       }
       return { replyTo: null, cleanText: rawText };
     }
@@ -3525,6 +3836,7 @@
       };
     }
     function removeServerFromList(c) {
+      if (!c || isDefaultServer(c)) return;
       persistMyServerList(myServerList().filter(s => !(s.host === c.host && String(s.port) === String(c.port) && s.kindHint === c.type)));
       c.ws?.close(); conns.delete(c.key);
       if (activeKey === c.key) { activeKey = null; activeDmFp = null; activeGroupId = null; }
@@ -3663,7 +3975,7 @@
 
     function openSettings() {
       const c = conns.get(activeKey);
-      const allServers = [...conns.values()].filter(cc => cc.type === 'channels');
+      const allServers = [...conns.values()].filter(cc => cc.type === 'channels' && (!isDefaultServer(cc) || cc.connected));
       const allBlocked = [];
       for (const cc of conns.values()) {
         for (const b of (cc.blocked || [])) {
@@ -3702,6 +4014,33 @@
         </div>
       </div>
     ` : ''}
+    ${((CURRENT.mutedServers && CURRENT.mutedServers.length) || (CURRENT.mutedUsers && CURRENT.mutedUsers.length)) ? `
+      <div class="step"><label>Serveurs et utilisateurs muets</label>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          ${(CURRENT.mutedServers || []).map(sKey => {
+        const cc = conns.get(sKey) || [...conns.values()].find(x => x.key === sKey || `${x.host}:${x.port}` === sKey);
+        const name = cc ? `${cc.name} (${cc.host}:${cc.port})` : sKey;
+        return `<div class="member-row" style="padding:6px 10px;background:rgba(255,255,255,0.02);border:1px solid var(--line);border-radius:6px;">
+              <span>🔕</span>
+              <span style="flex:1;"><b>${escapeHtml(name)}</b> <small style="color:var(--text-dim);">serveur muet</small></span>
+              <button class="btn-sm" data-settings-unmute-server="${escapeHtml(sKey)}" style="font-size:11px;padding:2px 8px;">🔔 Réactiver</button>
+            </div>`;
+      }).join('')}
+          ${(CURRENT.mutedUsers || []).map(uFp => {
+        let uName = uFp;
+        for (const cc of conns.values()) {
+          const m = cc.roster.get(uFp) || cc.friends.find(f => f.fingerprint === uFp);
+          if (m?.username) { uName = m.username; break; }
+        }
+        return `<div class="member-row" style="padding:6px 10px;background:rgba(255,255,255,0.02);border:1px solid var(--line);border-radius:6px;">
+              <span>🔕</span>
+              <span style="flex:1;"><b>${escapeHtml(uName)}</b> <small style="color:var(--text-dim);">${escapeHtml(uFp.slice(0, 10))}...</small></span>
+              <button class="btn-sm" data-settings-unmute-user="${escapeHtml(uFp)}" style="font-size:11px;padding:2px 8px;">🔔 Réactiver</button>
+            </div>`;
+      }).join('')}
+        </div>
+      </div>
+    ` : ''}
     <div class="settings-row">
       <div>Réduction de bruit du micro<small>Filtre le bruit de fond pendant les appels/vocaux (redémarre le micro si un appel est en cours)</small></div>
       <div class="toggle-switch ${audioSettings.noiseSuppression ? 'on' : ''}" id="toggleNoiseSuppr"><div class="knob"></div></div>
@@ -3716,8 +4055,11 @@
       <div class="toggle-switch ${localStorage.getItem(REMEMBER_KEY) ? 'on' : ''}" id="toggleRemember"><div class="knob"></div></div>
     </div>
     ${c ? `<div class="step"><label>Serveur actif : ${escapeHtml(c.name)}</label>
+      <button class="btn-sm" id="btnSettingsMuteServer" style="width:100%;margin-bottom:8px;">${isServerMuted(c) ? '🔔 Réactiver les notifications de ce serveur' : '🔕 Rendre ce serveur muet'}</button>
       ${c.type === 'mp' && activeGroupId ? `<button class="btn-sm" id="btnLeaveGroup" style="width:100%;margin-bottom:8px;">✕ Quitter ce groupe</button>` : ''}
-      <button class="btn-sm" id="btnRemoveServer" style="width:100%;color:var(--danger);">✕ Retirer ce serveur de ma liste</button>
+      ${isDefaultServer(c)
+            ? `<div style="font-size:12px;color:var(--text-dim);margin-top:6px;padding:6px 0;">★ Serveur officiel par défaut (non supprimable)</div>`
+            : `<button class="btn-sm" id="btnRemoveServer" style="width:100%;color:var(--danger);">✕ Retirer ce serveur de ma liste</button>`}
     </div>` : ''}
   `);
       document.getElementById('btnChangeAvatarSettings').onclick = () => openAvatarPicker(true);
@@ -3753,6 +4095,28 @@
           }
         };
       });
+      const btnSetMute = document.getElementById('btnSettingsMuteServer');
+      if (btnSetMute && c) {
+        btnSetMute.onclick = () => {
+          toggleMuteServer(c);
+          closeModal();
+          openSettings();
+        };
+      }
+      document.querySelectorAll('[data-settings-unmute-server]').forEach(btn => {
+        btn.onclick = () => {
+          toggleMuteServer(btn.dataset.settingsUnmuteServer);
+          closeModal();
+          openSettings();
+        };
+      });
+      document.querySelectorAll('[data-settings-unmute-user]').forEach(btn => {
+        btn.onclick = () => {
+          toggleMuteUser(btn.dataset.settingsUnmuteUser);
+          closeModal();
+          openSettings();
+        };
+      });
       document.getElementById('btnSaveSettings').onclick = () => {
         const newUsername = document.getElementById('setUsername').value.trim();
         try {
@@ -3772,9 +4136,12 @@
           activeGroupId = null; closeModal(); renderSidebar(); renderMain();
         }
       };
-      document.getElementById('btnRemoveServer').onclick = () => {
-        if (c && window.confirm(`Retirer ${c.name} de ta liste ?`)) { closeModal(); removeServerFromList(c); }
-      };
+      const btnRemoveServer = document.getElementById('btnRemoveServer');
+      if (btnRemoveServer) {
+        btnRemoveServer.onclick = () => {
+          if (c && !isDefaultServer(c) && window.confirm(`Retirer ${c.name} de ta liste ?`)) { closeModal(); removeServerFromList(c); }
+        };
+      }
     }
 
     async function connectToServer(host, port, label, kindHint, myDisplayName) {
@@ -3831,7 +4198,17 @@
         const text = c.everConnected
           ? `Connexion au serveur perdue (${detail}).`
           : `Impossible de joindre ${c.host}:${c.port} (${detail}). Vérifie que le serveur tourne et que le port est correct.`;
-        if (c.type === 'channels') addSystemMessage(c, c.activeChannel, text);
+        if (c.type === 'channels' && !isDefaultServer(c)) addSystemMessage(c, c.activeChannel, text);
+        if (isDefaultServer(c) && activeKey === c.key) {
+          const another = [...conns.values()].find(other => other.connected);
+          if (another) {
+            selectServer(another.key);
+          } else {
+            activeKey = null;
+            renderSidebar();
+            renderMain();
+          }
+        }
         renderRail();
         if (activeKey === c.key) renderMain();
       });
@@ -3844,11 +4221,15 @@
       if (c.connected || c._retrying) return;
       c._retrying = true;
       c.rejectedUsername = false;
-      const ws = new WebSocket(`ws://${c.host}:${c.port}/`);
-      wireSocket(c, ws);
-      ws.addEventListener('open', () => { c._retrying = false; }, { once: true });
-      ws.addEventListener('close', () => { c._retrying = false; }, { once: true });
-      ws.addEventListener('error', () => { c._retrying = false; }, { once: true });
+      try {
+        const ws = new WebSocket(`ws://${c.host}:${c.port}/`);
+        wireSocket(c, ws);
+        ws.addEventListener('open', () => { c._retrying = false; }, { once: true });
+        ws.addEventListener('close', () => { c._retrying = false; }, { once: true });
+        ws.addEventListener('error', () => { c._retrying = false; }, { once: true });
+      } catch (e) {
+        c._retrying = false;
+      }
     }
 
     /* bouton "actualiser" : retente tous les serveurs enregistrés qu'on ne capte pas actuellement */
@@ -3856,6 +4237,15 @@
       for (const c of conns.values()) if (!c.connected) retryConnection(c);
       renderRail();
     }
+
+    /* Reconnexion automatique en arrière-plan pour les serveurs par défaut silencieux/invisibles */
+    setInterval(() => {
+      for (const c of conns.values()) {
+        if (isDefaultServer(c) && !c.connected) {
+          retryConnection(c);
+        }
+      }
+    }, 10000);
 
     async function handleServerMessage(c, msg) {
       if (msg.t === 'auth-challenge') {
@@ -3914,6 +4304,9 @@
             await restoreSavedGroupKey(c, g.id);
             await registerGroupMembersInRoster(c, g);
           }
+        }
+        if (!activeKey) {
+          selectServer(c.key);
         }
         renderRail(); renderSidebar(); renderMain();
       } else if (msg.t === 'onboarding-quiz-required') {
@@ -4037,11 +4430,11 @@
         if (activeGroupId === msg.groupId) { activeGroupId = null; }
         renderSidebar(); renderMain();
       } else if (msg.t === 'kicked') {
-        window.alert(`Tu as été expulsé par ${msg.by || 'un admin'}. Le serveur a été retiré de ta liste.`);
-        removeServerFromList(c);
+        window.alert(`Tu as été expulsé par ${msg.by || 'un admin'}.${isDefaultServer(c) ? '' : ' Le serveur a été retiré de ta liste.'}`);
+        if (!isDefaultServer(c)) removeServerFromList(c);
       } else if (msg.t === 'banned') {
-        window.alert('Tu as été banni de ce serveur. Il a été retiré de ta liste.');
-        removeServerFromList(c);
+        window.alert(`Tu as été banni de ce serveur.${isDefaultServer(c) ? '' : ' Il a été retiré de ta liste.'}`);
+        if (!isDefaultServer(c)) removeServerFromList(c);
       } else if (msg.t === 'relay') {
         await handleRelayPayload(c, msg.from, msg.payload);
       } else if (msg.t === 'channel-relay') {
@@ -4072,8 +4465,10 @@
           const group = c.groups.get(msg.groupId);
           const starterFp = [...now][0];
           const starterName = c.roster.get(starterFp)?.username || '?';
-          notifyUser(`Vocal démarré dans ${group?.name || 'un groupe'}`, `${starterName} a rejoint le vocal.`);
-          soundRingStart();
+          if (!isServerMuted(c) && !isUserMuted(starterFp)) {
+            notifyUser(`Vocal démarré dans ${group?.name || 'un groupe'}`, `${starterName} a rejoint le vocal.`, { server: c, fromFp: starterFp });
+            soundRingStart();
+          }
           showGroupCallBanner(c, msg.groupId, group?.name || 'Groupe', starterName);
         }
         if (now.size === 0) hideGroupCallBanner(msg.groupId);
@@ -4110,7 +4505,7 @@
         renderMain();
       } else if (msg.t === 'friend-request-incoming') {
         c.incoming.push({ from: msg.from, fromUsername: msg.username });
-        notifyUser(`Demande d'ami de ${msg.username}`, `sur ${c.name}`);
+        notifyUser(`Demande d'ami de ${msg.username}`, `sur ${c.name}`, { server: c, fromFp: msg.from });
         renderRail(); renderMain();
       } else if (msg.t === 'friend-added') {
         c.friends.push({ fingerprint: msg.fingerprint, username: msg.username, pubJwk: msg.pubJwk || null, online: true });
@@ -4306,8 +4701,10 @@
         await handleWebrtcSignal(c, fromFp, payload);
       } else if (payload.kind === 'call-invite') {
         c.callState.set(fromFp, 'ringing-in');
-        soundRingStart();
-        notifyUser(`Appel de ${member.username}`, 'Appuie pour répondre.');
+        if (!isServerMuted(c) && !isUserMuted(fromFp)) {
+          soundRingStart();
+          notifyUser(`Appel de ${member.username}`, 'Appuie pour répondre.', { server: c, fromFp });
+        }
         showIncomingCallBanner(c, fromFp, member.username, member.avatar);
         renderMain();
       } else if (payload.kind === 'call-accept') {
@@ -4407,9 +4804,9 @@
           reactions: entry.reactions || {}
         });
         c.messages[channel].sort((a, b) => (a.ts || 0) - (b.ts || 0));
-        if (!mine && messageMentionsMe(cleanText) && (Date.now() - (entry.ts || 0)) < 8000) notifyUser(`${member?.username || '?'} vous mentionne dans #${channel}`, cleanText);
+        if (!mine && messageMentionsMe(cleanText) && (Date.now() - (entry.ts || 0)) < 8000) notifyUser(`${member?.username || '?'} vous mentionne dans #${channel}`, cleanText, { server: c, fromFp: entry.from });
         const viewingThis = activeKey === c.key && !activeDmFp && !activeGroupId && c.activeChannel === channel && document.hasFocus();
-        if (!mine && (Date.now() - (entry.ts || 0)) < 8000 && !viewingThis) bumpUnread(c.unreadChannels, channel);
+        if (!mine && (Date.now() - (entry.ts || 0)) < 8000 && !viewingThis) bumpUnread(c.unreadChannels, channel, { server: c, fromFp: entry.from });
         if (!mine && entry.id && (Date.now() - (entry.ts || 0)) < 8000) sendReceipt(c, viewingThis ? 'mark-read' : 'mark-delivered', 'channel', channel, entry.id);
       } catch (e) { /* mauvaise clé ou message corrompu : ignoré */ }
     }
@@ -4521,9 +4918,9 @@
         list.sort((a, b) => (a.ts || 0) - (b.ts || 0));
         const viewingThis = activeKey === c.key && activeGroupId === groupId && document.hasFocus();
         if (!mine && (Date.now() - (entry.ts || 0)) < 8000) {
-          if (messageMentionsMe(cleanText)) notifyUser(`${memberInfo?.username || '?'} vous mentionne dans ${group?.name || 'un groupe'}`, cleanText);
-          else notifyUser(`${memberInfo?.username || '?'} (${group?.name || 'groupe'})`, cleanText);
-          if (!viewingThis) bumpUnread(c.unreadGroups, groupId);
+          if (messageMentionsMe(cleanText)) notifyUser(`${memberInfo?.username || '?'} vous mentionne dans ${group?.name || 'un groupe'}`, cleanText, { server: c, fromFp: entry.from });
+          else notifyUser(`${memberInfo?.username || '?'} (${group?.name || 'groupe'})`, cleanText, { server: c, fromFp: entry.from });
+          if (!viewingThis) bumpUnread(c.unreadGroups, groupId, { server: c, fromFp: entry.from });
         }
         if (!mine && entry.id && (Date.now() - (entry.ts || 0)) < 8000) sendReceipt(c, viewingThis ? 'mark-read' : 'mark-delivered', 'group', groupId, entry.id);
       } catch (e) { }
@@ -4751,8 +5148,8 @@
       if (activeKey === c.key && activeDmFp === fp) renderMessages();
       if (!m.mine && !m.system) {
         const uname = c.roster.get(fp)?.username || '?';
-        notifyUser(`Message de ${uname}`, m.text);
-        if (activeKey !== c.key || activeDmFp !== fp) bumpUnread(c.unreadDm, fp);
+        notifyUser(`Message de ${uname}`, m.text, { server: c, fromFp: fp });
+        if (activeKey !== c.key || activeDmFp !== fp) bumpUnread(c.unreadDm, fp, { server: c, fromFp: fp });
       }
     }
 
@@ -5368,7 +5765,7 @@
         const vid = tile.querySelector('video');
         if (vid.srcObject !== item.stream) {
           vid.srcObject = item.stream;
-          vid.play().catch(() => {});
+          vid.play().catch(() => { });
         }
       }
 
@@ -5408,24 +5805,27 @@
     /* ================= UI ================= */
     function renderRail() {
       const rail = document.getElementById('rail');
-      const channelsConns = [...conns.values()].filter(c => c.type !== 'mp');
-      const mpConns = [...conns.values()].filter(c => c.type === 'mp');
+      const channelsConns = [...conns.values()].filter(c => c.type !== 'mp' && (!isDefaultServer(c) || c.connected));
+      const mpConns = [...conns.values()].filter(c => c.type === 'mp' && (!isDefaultServer(c) || c.connected));
 
       function item(c) {
         const label = c.icon || escapeHtml(c.label.slice(0, 3).toUpperCase());
+        const muted = isServerMuted(c);
         let badgeCount = 0;
-        if (c.type === 'mp') {
-          badgeCount = (c.incoming || []).length + sumUnread(c.unreadDm) + sumUnread(c.unreadGroups);
-        } else {
-          badgeCount = sumUnread(c.unreadChannels);
+        if (!muted) {
+          if (c.type === 'mp') {
+            badgeCount = (c.incoming || []).length + sumUnread(c.unreadDm) + sumUnread(c.unreadGroups);
+          } else {
+            badgeCount = sumUnread(c.unreadChannels);
+          }
         }
         const reachable = !!c.connected;
-        return `<div class="rail-item ${c.type === 'mp' ? 'type-mp' : 'type-channels'} ${activeKey === c.key ? 'active' : ''} ${reachable ? '' : 'unreachable'}" data-key="${c.key}" title="${escapeHtml(c.name)} — ${c.host}:${c.port}${reachable ? '' : ' (injoignable — cliquer propose de le retirer)'}">
-      ${label}<span class="status ${reachable ? 'on' : ''}"></span>${badgeCount ? `<span class="badge">${badgeCount > 99 ? '99+' : badgeCount}</span>` : ''}
+        return `<div class="rail-item ${c.type === 'mp' ? 'type-mp' : 'type-channels'} ${activeKey === c.key ? 'active' : ''} ${reachable ? '' : 'unreachable'}" data-key="${c.key}" title="${escapeHtml(c.name)} — ${c.host}:${c.port}${muted ? ' (Muet)' : ''}${reachable ? '' : ' (injoignable)'}">
+      ${label}<span class="status ${reachable ? 'on' : ''}"></span>${badgeCount ? `<span class="badge">${badgeCount > 99 ? '99+' : badgeCount}</span>` : ''}${muted ? `<span class="muted-badge" title="Serveur muet">🔕</span>` : ''}
     </div>`;
       }
 
-      const unreachableCount = [...conns.values()].filter(c => !c.connected).length;
+      const unreachableCount = [...conns.values()].filter(c => !c.connected && !isDefaultServer(c)).length;
       const noServersAtAll = !channelsConns.length && !mpConns.length;
       rail.innerHTML = `
     <div class="rail-item refresh-btn" id="btnRefreshServers" title="Actualiser la liste des serveurs">
@@ -5462,7 +5862,7 @@
       if (btnExp) btnExp.onclick = () => openServerDirectoryModal();
       const btnRailExp = document.getElementById('btnRailExplore');
       if (btnRailExp) btnRailExp.onclick = () => openServerDirectoryModal();
-      // un serveur qu'on ne "capte" pas ne s'ouvre pas au clic : on propose plutôt de le retirer
+      // un serveur qu'on ne "capte" pas ne s'ouvre pas au clic : on propose plutôt de le retirer (sauf serveur par défaut)
       rail.querySelectorAll('.rail-item[data-key]').forEach(el => {
         const c = conns.get(el.dataset.key);
         if (!c) return;
@@ -5470,6 +5870,7 @@
           el.onclick = () => selectServer(el.dataset.key);
         } else {
           el.onclick = () => {
+            if (isDefaultServer(c)) return;
             if (window.confirm(`"${c.name}" (${c.host}:${c.port}) est injoignable actuellement.\n\nLe retirer de ta liste de serveurs ?\n(tu peux aussi cliquer sur ↻ pour réessayer de le joindre sans le supprimer)`)) {
               removeServerFromList(c);
             }
@@ -5576,6 +5977,20 @@
       document.getElementById('serverName').textContent = c ? (c.icon ? c.icon + ' ' : '') + c.name : '—';
       document.getElementById('serverInfo').textContent = c ? `${c.host}:${c.port} · ${c.type === 'mp' ? 'relais MP' : 'salons'}` : '';
 
+      const muteServerBtn = document.getElementById('btnToggleMuteServer');
+      if (muteServerBtn) {
+        if (c) {
+          muteServerBtn.style.display = 'inline-flex';
+          const muted = isServerMuted(c);
+          muteServerBtn.textContent = muted ? '🔕' : '🔔';
+          muteServerBtn.title = muted ? 'Serveur muet (cliquer pour réactiver les notifications)' : 'Rendre ce serveur muet (ne plus recevoir de notifications)';
+          muteServerBtn.style.color = muted ? 'var(--alert)' : 'var(--text-dim)';
+          muteServerBtn.onclick = () => toggleMuteServer(c);
+        } else {
+          muteServerBtn.style.display = 'none';
+        }
+      }
+
       document.getElementById('meAvatar').innerHTML = avatarOrInitials(CURRENT.avatar, CURRENT.username, 30);
       document.getElementById('meName').textContent = CURRENT.username || '—';
       document.getElementById('meFp').textContent = CURRENT.fingerprint || '—';
@@ -5648,7 +6063,7 @@
           const unread = c.unreadDm.get(f.fingerprint) || 0;
           const row = document.createElement('div');
           row.className = 'member-row' + (activeDmFp === f.fingerprint ? ' active' : '');
-          row.innerHTML = `<span class="dot" style="background:${f.online ? 'var(--signal)' : 'var(--text-dim)'}"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(f.username)}</span>${unread ? `<span class="unread-badge">${unread > 99 ? '99+' : unread}</span>` : ''}<button class="menu-btn" title="Options">⋯</button>`;
+          row.innerHTML = `<span class="dot" style="background:${f.online ? 'var(--signal)' : 'var(--text-dim)'}"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(f.username)}</span>${isUserMuted(f.fingerprint) ? '<span title="Utilisateur muet" style="font-size:11px;margin-right:4px;">🔕</span>' : ''}${unread ? `<span class="unread-badge">${unread > 99 ? '99+' : unread}</span>` : ''}<button class="menu-btn" title="Options">⋯</button>`;
           row.onclick = (e) => { if (e.target.classList.contains('menu-btn')) return; cancelReply(); activeDmFp = f.fingerprint; activeGroupId = null; clearUnread(c.unreadDm, f.fingerprint); renderSidebar(); renderMain(); setMobileScreen('main'); };
           row.querySelector('.menu-btn').onclick = (e) => { e.stopPropagation(); openFriendMenu(row, c, f); };
           list.appendChild(row);
@@ -5772,7 +6187,7 @@
         row.className = 'member-row';
         const memberRoles = getEffectiveRoles(c, fp);
         const memberRoleTags = memberRoles.map(r => `<span class="role-tag" style="background:${r.color}22;color:${r.color};border:1px solid ${r.color}44;">${escapeHtml(r.name)}</span>`).join('');
-        row.innerHTML = `<span class="dot"></span><span style="cursor:pointer;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(m.username)}</span>${m.role !== 'member' ? `<span class="role-tag">${m.role}</span>` : ''}${memberRoleTags}${(canManageChan || canManageRol) && fp !== CURRENT.fingerprint ? '<button class="menu-btn">⋯</button>' : ''}`;
+        row.innerHTML = `<span class="dot"></span><span style="cursor:pointer;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(m.username)}</span>${isUserMuted(fp) ? '<span title="Utilisateur muet" style="font-size:11px;margin-right:4px;">🔕</span>' : ''}${m.role !== 'member' ? `<span class="role-tag">${m.role}</span>` : ''}${memberRoleTags}${(canManageChan || canManageRol) && fp !== CURRENT.fingerprint ? '<button class="menu-btn">⋯</button>' : ''}`;
         row.querySelector('span[style]').onclick = () => openUserProfileMenu(fp, m.username, m.avatar, m);
         if ((canManageChan || canManageRol)) { const btn = row.querySelector('.menu-btn'); if (btn) btn.onclick = (e) => { e.stopPropagation(); openMemberMenu(row, c, fp, m); }; }
         list.appendChild(row);
@@ -5784,7 +6199,8 @@
       const menu = document.createElement('div'); menu.className = 'member-menu';
       const isOwner = c.role === 'owner';
       const canRoles = userCanManageRoles(c);
-      let html = `<button data-a="kick">✕ Expulser (kick)</button><button data-a="ban" class="danger">✕ Bannir</button>`;
+      const isMuted = isUserMuted(fp);
+      let html = `<button data-a="profile">⚉ Voir le profil</button><button data-a="mute">${isMuted ? '🔔 Réactiver notifs' : '🔕 Rendre muet'}</button><button data-a="kick">✕ Expulser (kick)</button><button data-a="ban" class="danger">✕ Bannir</button>`;
       if (isOwner) html += member.role === 'admin' ? `<button data-a="demote">· Rétrograder membre</button>` : `<button data-a="promote">◆ Promouvoir admin</button>`;
       if (canRoles && (c.roles || []).length) {
         html += `<hr style="border-color:var(--line);margin:4px 0;"><div style="font-size:10px;color:var(--text-dim);padding:4px 8px;text-transform:uppercase;">Attribuer un rôle :</div>`;
@@ -5799,7 +6215,9 @@
       }
       menu.innerHTML = html;
       anchorEl.appendChild(menu);
-      menu.querySelectorAll('button[data-a]').forEach(b => b.onclick = () => { adminAction(c, b.dataset.a, { target: fp }); menu.remove(); });
+      menu.querySelector('[data-a="profile"]')?.addEventListener('click', () => { menu.remove(); openUserProfileMenu(fp, member.username, member.avatar, member); });
+      menu.querySelector('[data-a="mute"]')?.addEventListener('click', () => { menu.remove(); toggleMuteUser(fp); });
+      menu.querySelectorAll('button[data-a="kick"], button[data-a="ban"], button[data-a="demote"], button[data-a="promote"]').forEach(b => b.onclick = () => { adminAction(c, b.dataset.a, { target: fp }); menu.remove(); });
       menu.querySelectorAll('button[data-role-id]').forEach(b => {
         b.onclick = () => {
           const roleId = b.dataset.roleId;
@@ -5814,9 +6232,11 @@
     function openFriendMenu(anchorEl, c, f) {
       document.querySelectorAll('.member-menu').forEach(m => m.remove());
       const menu = document.createElement('div'); menu.className = 'member-menu';
-      menu.innerHTML = `<button data-a="profile">⚉ Voir le profil</button><button data-a="block" class="danger">✕ Bloquer</button>`;
+      const isMuted = isUserMuted(f.fingerprint);
+      menu.innerHTML = `<button data-a="profile">⚉ Voir le profil</button><button data-a="mute">${isMuted ? '🔔 Réactiver notifs' : '🔕 Rendre muet'}</button><button data-a="block" class="danger">✕ Bloquer</button>`;
       anchorEl.appendChild(menu);
       menu.querySelector('[data-a="profile"]').onclick = () => { menu.remove(); openUserProfileMenu(f.fingerprint, f.username, f.avatar, f); };
+      menu.querySelector('[data-a="mute"]').onclick = () => { menu.remove(); toggleMuteUser(f.fingerprint); };
       menu.querySelector('[data-a="block"]').onclick = () => {
         menu.remove();
         if (window.confirm(`Bloquer ${f.username} ? Vous ne serez plus amis et il/elle ne pourra plus t'envoyer de demande.`)) {
@@ -5888,6 +6308,7 @@
       ${isBlocked ? `<button class="btn-sm" id="btnTopUnblock" style="margin-left:12px;padding:3px 10px;font-size:12px;color:var(--signal);border-color:var(--signal);">⚿ Débloquer</button>` : ''}
       <div class="spacer"></div>
       <div class="call-controls">
+        ${dmMode && !isBlocked ? `<button class="icon-btn" id="btnToggleMuteDm" title="${isUserMuted(activeDmFp) ? 'Utilisateur muet (cliquer pour réactiver les notifications)' : 'Rendre cet utilisateur muet'}" style="${isUserMuted(activeDmFp) ? 'color:var(--alert);' : ''}">${isUserMuted(activeDmFp) ? '🔕' : '🔔'}</button>` : ''}
         ${dmMode && !isBlocked ? `<button class="icon-btn ${callState === 'in-call' ? 'on' : ''}" id="btnDmCall" title="${callState === 'in-call' ? 'Raccrocher l\'appel' : (callState ? 'Annuler l\'appel' : 'Lancer un appel vocal')}">${callState === 'in-call' ? '✕' : '✆'}</button>` : ''}
         ${dmMode && !isBlocked ? `<button class="icon-btn" id="btnBlockUser" title="Bloquer cet utilisateur">✕</button>` : ''}
         ${groupMode ? `<button class="icon-btn" id="btnGroupMembers" title="Voir les membres du groupe">⚉</button>` : ''}
@@ -5967,6 +6388,8 @@
         else { startDmCall(c, activeDmFp); }
         renderMain();
       };
+      const muteDmBtn = document.getElementById('btnToggleMuteDm');
+      if (muteDmBtn) muteDmBtn.onclick = () => { toggleMuteUser(activeDmFp); renderMain(); };
       const cancelBtn = document.getElementById('btnCancelCall'); if (cancelBtn) cancelBtn.onclick = () => { cancelDmCall(c, activeDmFp); renderMain(); };
       const blockBtn = document.getElementById('btnBlockUser');
       if (blockBtn) blockBtn.onclick = () => {
@@ -6927,11 +7350,6 @@
       }
       closeReactionPicker();
       const quickEmojis = ['👍', '❤️', '😂', '🔥', '🎉', '😮', '😢', '🙏', '👏', '🚀'];
-      const extraEmojis = [
-        '🥰', '😎', '🤔', '😏', '🥺', '💀', '🥳', '🤯',
-        '👎', '🙌', '🤝', '✌️', '💪', '✨', '⭐', '💯',
-        '👀', '🍕', '☕', '⚡', '💡', '🎮', '💩', '🍻'
-      ];
       const popover = document.createElement('div');
       popover.id = 'reactionPickerPopover';
       popover.className = 'reaction-picker-popover';
@@ -6957,10 +7375,10 @@
       const moreBtn = document.createElement('button');
       moreBtn.className = 'more-emojis-btn';
       moreBtn.innerHTML = '＋';
-      moreBtn.title = 'Plus d\'émojis';
+      moreBtn.title = 'Tous les émojis';
       moreBtn.onclick = (e) => {
         e.stopPropagation();
-        toggleReactionGrid(moreBtn, c, scope, scopeId, msgId, extraEmojis);
+        toggleReactionGrid(moreBtn, c, scope, scopeId, msgId);
       };
       popover.appendChild(moreBtn);
 
@@ -6979,33 +7397,786 @@
       popover.style.left = `${left}px`;
     }
 
-    function toggleReactionGrid(anchorBtn, c, scope, scopeId, msgId, extraEmojis) {
+    const ALL_EMOJIS_DATA = [
+      {
+        id: 'smileys',
+        name: 'Smileys & Émotions',
+        icon: '😃',
+        emojis: [
+          { e: '😀', n: 'sourire visage heureux grin content smile happy' },
+          { e: '😃', n: 'sourire grand yeux heureux joyeux smile' },
+          { e: '😄', n: 'sourire rire riant content lol' },
+          { e: '😁', n: 'sourire dents rire grin content' },
+          { e: '😆', n: 'rire yeux fermes mdr riant lol haha' },
+          { e: '😅', n: 'sueur sourire ouf rire gene ouf' },
+          { e: '🤣', n: 'mort de rire ptdr roulant par terre rofl mdr lol' },
+          { e: '😂', n: 'larmes de joie mdr pleure rire lol haha ptdr' },
+          { e: '🙂', n: 'sourire leger calme normal smile ok' },
+          { e: '🙃', n: 'envers tete ironie sarcasme upside down' },
+          { e: '🫠', n: 'fondre chaud embarras disappearing melting' },
+          { e: '😉', n: 'clin oeil wink charme complice' },
+          { e: '😊', n: 'sourire timide rougissant joues content blush' },
+          { e: '😇', n: 'ange aureole innocent gentil saint angel' },
+          { e: '🥰', n: 'amoureux coeurs adore aime love coeur' },
+          { e: '😍', n: 'yeux coeur amoureux love passion fan' },
+          { e: '🤩', n: 'etoiles yeux impressionne star wow stars' },
+          { e: '😘', n: 'bisou bisous coeur kiss amour love' },
+          { e: '😗', n: 'bisou siffle kiss' },
+          { e: '😚', n: 'bisou yeux fermes kiss joues' },
+          { e: '😙', n: 'bisou sourire kiss' },
+          { e: '😋', n: 'miam langue delicieux faim bon app yum' },
+          { e: '😛', n: 'langue taquin blague prank' },
+          { e: '😜', n: 'clin oeil langue fou rigolo wink' },
+          { e: '🤪', n: 'fou zinzin zany loufoque drole crazy' },
+          { e: '😝', n: 'langue yeux fermes lol degout rigolo' },
+          { e: '🤑', n: 'argent riche thunes dollar money cash' },
+          { e: '🤗', n: 'calin bras ouverts calins hug hugs' },
+          { e: '🫣', n: 'regard timide peur cache yeux peeking' },
+          { e: '🤭', n: 'oups main bouche gloussement rire giggle' },
+          { e: '🥱', n: 'bailler fatigue sommeil ennui yawn sleep' },
+          { e: '🤫', n: 'chut secret silence shh taisez vous chut' },
+          { e: '🫡', n: 'salut militaire respect chef saluting' },
+          { e: '🤐', n: 'bouche cousue fermeture secret motus zip' },
+          { e: '🤨', n: 'sourcil leve doute sceptique suspect hmm' },
+          { e: '😐', n: 'neutre impassible poker face blase neutral' },
+          { e: '😑', n: 'sans expression blase desabuse deadpan' },
+          { e: '😶', n: 'sans bouche muet sans voix rien a dire mute' },
+          { e: '🫥', n: 'pointilles invisible fantome disappeared ghost' },
+          { e: '😏', n: 'malicieux sourire en coin drague smirk' },
+          { e: '😒', n: 'decu blase pas content agace unamused' },
+          { e: '🙄', n: 'roule des yeux exasperation agace roll eyes' },
+          { e: '😬', n: 'grimaçait dents malaise oups cringe grimace' },
+          { e: '🤥', n: 'menteur nez pinocchio mensonge fake liar' },
+          { e: '🫨', n: 'secoue choc tremblement shaking shake' },
+          { e: '😌', n: 'soulage zen calme paix relaxed relief' },
+          { e: '😔', n: 'triste pensif abattu decu sad pensive' },
+          { e: '😪', n: 'endormi bulle fatigue morve sleepy' },
+          { e: '🤤', n: 'bave envie miam drool yummy' },
+          { e: '😴', n: 'dort sommeil zzz nuit fatigue sleeping' },
+          { e: '😷', n: 'masque malade virus covid hopital mask' },
+          { e: '🤒', n: 'thermometre fievre malade chaud sick' },
+          { e: '🤕', n: 'bandage blesse pansement tete bobo hurt' },
+          { e: '🤢', n: 'degout nausee vert ecoeure vomit sick' },
+          { e: '🤮', n: 'vomit degueuli beurk puke barf' },
+          { e: '🤧', n: 'eternue mouchoir rhume siffle sneeze' },
+          { e: '🥵', n: 'chaud brulant rouge soif transpiration hot' },
+          { e: '🥶', n: 'froid gele glace bleu cold freeze ice' },
+          { e: '🥴', n: 'bourre saoul bizarre etourdi dizzy woozy' },
+          { e: '😵', n: 'tournis KO yeux croix etourdi dead dizzy' },
+          { e: '😵‍💫', n: 'spirale yeux vertige hypnotise hypnose' },
+          { e: '🤯', n: 'explosion cerveau tete qui explose mind blown choquant boom' },
+          { e: '🤠', n: 'cowboy chapeau ouest western' },
+          { e: '🥳', n: 'fete cotillon anniversaire cotillons fiesta party celebration' },
+          { e: '🥸', n: 'deguise lunettes fausses incognito moustache' },
+          { e: '😎', n: 'cool lunettes de soleil classe boss chill sunglasses' },
+          { e: '🤓', n: 'geek intello nerd lunettes tech' },
+          { e: '🧐', n: 'monocle enquetant curieux inspecteur classy' },
+          { e: '😕', n: 'confus perplexe embrouille hesitation confused' },
+          { e: '😟', n: 'inquiet tracasse soucieux worried' },
+          { e: '🙁', n: 'triste fronce sourcils decu frown sad' },
+          { e: '😮', n: 'bouche ouverte surprise ah oh wow' },
+          { e: '😯', n: 'etonne surpris choque ouch' },
+          { e: '😲', n: 'stupefait bouche bee choque astonish' },
+          { e: '😳', n: 'rouge honte gene surpris rougeur flushed' },
+          { e: '🥺', n: 'yeux doux pitie mignon s il vous plait please supplie begging' },
+          { e: '🥹', n: 'larmes emotion emu retient larmes fierte proud' },
+          { e: '😦', n: 'deconcerte bouche ouverte frown' },
+          { e: '😧', n: 'angoisse soucieux anxieux peureux' },
+          { e: '😨', n: 'peur effraye panique craintif scared fear' },
+          { e: '😰', n: 'sueur angoisse panique stresse stress sweat' },
+          { e: '😥', n: 'decu soulage larme ouf sad relief' },
+          { e: '😢', n: 'larme tristesse pleure triste cry tear' },
+          { e: '😭', n: 'pleure chaudes larmes sanglots desole nooo crying sob' },
+          { e: '😱', n: 'peur cri hurle scream terreur oh mon dieu' },
+          { e: '😖', n: 'agace frustre douleur enerve' },
+          { e: '😣', n: 'lutte effort perseverance grimace' },
+          { e: '😞', n: 'decu abattu echec desole triste disappointed' },
+          { e: '😓', n: 'sueur front abattu peine fatigue' },
+          { e: '😩', n: 'fatigue marre excede lasse plein weary' },
+          { e: '😫', n: 'epuise marre a bout cris fatigue tired' },
+          { e: '😤', n: 'fume nez triomphe enerve colere fureur triumph' },
+          { e: '😡', n: 'enrage rouge furieux colere rage mad angry' },
+          { e: '😠', n: 'colere fache enerve contrarie angry' },
+          { e: '🤬', n: 'insulte censure gros mots swearing enerve colere' },
+          { e: '😈', n: 'diable violet sourire vilain malice demon devil' },
+          { e: '👿', n: 'demon colere diable furieux mechant evil' },
+          { e: '💀', n: 'crane mort squelette mort de rire dead skull' },
+          { e: '☠️', n: 'crane os pirates poison danger mortel' },
+          { e: '💩', n: 'caca bouse merde poop funny' },
+          { e: '🤡', n: 'clown cirque idiot clownesque fake' },
+          { e: '👹', n: 'ogre monstre japonais masque demon' },
+          { e: '👺', n: 'gobelin tengu nez rouge masque' },
+          { e: '👻', n: 'fantome peur halloween ghost esprit' },
+          { e: '👽', n: 'extraterrestre alien soucoupe espace ovni' },
+          { e: '👾', n: 'monstre pixel retro space invader jeu video game' },
+          { e: '🤖', n: 'robot machine automate ia bot tech' }
+        ]
+      },
+      {
+        id: 'hands',
+        name: 'Mains & Personnes',
+        icon: '👋',
+        emojis: [
+          { e: '👍', n: 'pouce pouce en haut ok super pouce lever like bien valide yes good' },
+          { e: '👎', n: 'pouce en bas nul dislike pas d accord mauvais zero no bad' },
+          { e: '👏', n: 'applaudissements bravo felicitations claps applaudir cheer' },
+          { e: '🙌', n: 'mains levees celebration victoire hosanna youpi hooray' },
+          { e: '🫶', n: 'mains en coeur amour love affection heart hands' },
+          { e: '👐', n: 'mains ouvertes accueil calin open hands' },
+          { e: '🤲', n: 'mains jointes priere don mendier foi' },
+          { e: '🤝', n: 'poignee de main accord deal pacte partenariat alliance shake' },
+          { e: '🙏', n: 'merci priere s il te plait gratitude prier please pray thanks' },
+          { e: '✌️', n: 'victoire paix peace sign deux salut peace' },
+          { e: '🤞', n: 'croise les doigts chance espoir croisons les doigts fingers crossed' },
+          { e: '🫰', n: 'coeur doigts argent claquement snap finger heart' },
+          { e: '🤟', n: 'signe amour i love you rock' },
+          { e: '🤘', n: 'cornes rock n roll hard rock metal fete rock on' },
+          { e: '🤙', n: 'appelle moi shaka cool surf call me' },
+          { e: '👈', n: 'doigt pointe gauche ici regarde point left' },
+          { e: '👉', n: 'doigt pointe droite la bas point right' },
+          { e: '👆', n: 'doigt pointe en haut regarde au dessus point up' },
+          { e: '👇', n: 'doigt pointe en bas ci dessous point down' },
+          { e: '☝️', n: 'index en haut attention une seconde point up' },
+          { e: '🫵', n: 'doigt pointe vers toi you toi-meme point you' },
+          { e: '👋', n: 'coucou salut au revoir wave main hi hello bye' },
+          { e: '🤚', n: 'dos de la main stop backhand' },
+          { e: '🖐️', n: 'main levee cinq doigts stop main hand' },
+          { e: '✋', n: 'main levee stop halte arret cinq stop' },
+          { e: '🖖', n: 'salut vulcain spock star trek paix live long' },
+          { e: '👌', n: 'ok parfait nickel super zero bien daccord perfect' },
+          { e: '🤌', n: 'doigts pinces italien qu est ce que tu veux geste italian' },
+          { e: '🤏', n: 'un peu minuscule petit peu pinte pinch small' },
+          { e: '👊', n: 'poing devant coup de poing fist bump check punch' },
+          { e: '✊', n: 'poing leve resistance force pouvoir raised fist' },
+          { e: '🤛', n: 'poing gauche check fist bump' },
+          { e: '🤜', n: 'poing droit check fist bump' },
+          { e: '💪', n: 'biceps muscle force fort puissance courage gym strong flex' },
+          { e: '🤳', n: 'selfie photo smartphone prise camera' },
+          { e: '✍️', n: 'ecrire stylo note devoirs ecriture write' },
+          { e: '💅', n: 'ongles vernis manucure pose nonchalance queen sassy nails' },
+          { e: '👀', n: 'yeux regard regarde voir observe eyes suspect look see' },
+          { e: '👁️', n: 'oeil oeil unique regard vision eye' },
+          { e: '👅', n: 'langue miam gout lecher tongue' },
+          { e: '👄', n: 'levres bouche bisou baiser lips mouth kiss' },
+          { e: '🧠', n: 'cerveau reflexion memoire intelligence brain qi smart' },
+          { e: '🫀', n: 'coeur organe vital sante heart organ' },
+          { e: '🫁', n: 'poumons respiration souffle air lungs' },
+          { e: '🦷', n: 'dent dentiste sourire proprete tooth' },
+          { e: '🦴', n: 'os squelette chien dog bone' },
+          { e: '🫂', n: 'gens qui s enlacent calin etreinte compassion aide hug' }
+        ]
+      },
+      {
+        id: 'hearts',
+        name: 'Cœurs & Amour',
+        icon: '❤️',
+        emojis: [
+          { e: '❤️', n: 'coeur rouge amour passion love red heart' },
+          { e: '🧡', n: 'coeur orange amitie tendresse orange heart' },
+          { e: '💛', n: 'coeur jaune soleil joie purete amitie yellow heart' },
+          { e: '💚', n: 'coeur vert nature espoir jaloux jalousie bio green heart' },
+          { e: '💙', n: 'coeur bleu loyaute confiance paix mer ciel blue heart' },
+          { e: '💜', n: 'coeur violet luxe magie feerie purple heart' },
+          { e: '🖤', n: 'coeur noir sombre deuil tristesse gothique black heart' },
+          { e: '🤍', n: 'coeur blanc purete paix ange lumiere white heart' },
+          { e: '🤎', n: 'coeur marron terre chocolat douceur brown heart' },
+          { e: '💔', n: 'coeur brise rupture peine chagrin deuil sad broken heart' },
+          { e: '❤️‍🔥', n: 'coeur enflamme passion feu brulant amour heart on fire' },
+          { e: '❤️‍🩹', n: 'coeur gueri pansement reconstruction soulagement mending' },
+          { e: '❣️', n: 'point d exclamation coeur amour exclamation' },
+          { e: '💕', n: 'deux coeurs rose amitie amour amourettes two hearts' },
+          { e: '💞', n: 'coeurs qui tournent echange love revolving' },
+          { e: '💓', n: 'coeur qui bat pulsations coup de foudre beating' },
+          { e: '💗', n: 'coeur grandissant vibrant emotion tendresse growing' },
+          { e: '💖', n: 'coeur etincelant brille etoile magique paillettes sparkle' },
+          { e: '💘', n: 'fleche cupidon coup de foudre amour cupid' },
+          { e: '💝', n: 'coeur avec ruban cadeau noel st valentin present ribbon' },
+          { e: '💟', n: 'decoration coeur symbole amour heart' },
+          { e: '💌', n: 'lettre d amour enveloppe message secret love letter' },
+          { e: '💋', n: 'trace de rouge a levres baiser bisou bisous kiss mark' }
+        ]
+      },
+      {
+        id: 'nature',
+        name: 'Animaux & Nature',
+        icon: '🐶',
+        emojis: [
+          { e: '🐶', n: 'chien chiot animal fidele dog toutou puppy' },
+          { e: '🐱', n: 'chat chaton miaou cat minou kitten' },
+          { e: '🐭', n: 'souris rongeur mouse fromage' },
+          { e: '🐹', n: 'hamster rongeur mignon' },
+          { e: '🐰', n: 'lapin carotte paques rabbit bunny' },
+          { e: '🦊', n: 'renard ruse fox animal' },
+          { e: '🐻', n: 'ours peluche bear nounours' },
+          { e: '🐼', n: 'panda bambou chine mignon' },
+          { e: '🐻‍❄️', n: 'ours polaire banquise arctique froid blanc polar' },
+          { e: '🐨', n: 'koala eucalyptus australie' },
+          { e: '🐯', n: 'tigre fauve felin rayures tiger' },
+          { e: '🦁', n: 'lion criniere roi savane felin' },
+          { e: '🐮', n: 'vache lait ferme animal cow' },
+          { e: '🐷', n: 'cochon porc ferme groin pig' },
+          { e: '🐸', n: 'grenouille crapaud nenuphar vert frog' },
+          { e: '🐵', n: 'singe visage animal monkey' },
+          { e: '🙈', n: 'singe yeux caches rien vu pas vu see no evil' },
+          { e: '🙉', n: 'singe oreilles cachees pas entendu rien ecoute hear no evil' },
+          { e: '🙊', n: 'singe bouche cachee rien dit pas parle secret motus speak no evil' },
+          { e: '🐔', n: 'poule coq ferme oeuf chicken' },
+          { e: '🐧', n: 'pingouin manchot banquise froid empereur penguin' },
+          { e: '🐦', n: 'oiseau chant plume nature oisillon bird' },
+          { e: '🐤', n: 'poussin bebe poule oiseau jaune chick' },
+          { e: '🦆', n: 'canard mare coin coin duck' },
+          { e: '🦅', n: 'aigle rapace majestueux oiseau eagle' },
+          { e: '🦉', n: 'chouette hibou nuit sagesse oiseau owl' },
+          { e: '🦇', n: 'chauve souris nuit batman vampire bat' },
+          { e: '🐺', n: 'loup meute foret hurlement wolf' },
+          { e: '🐗', n: 'sanglier sauvage foret boar' },
+          { e: '🐴', n: 'cheval equitation poney animal horse' },
+          { e: '🦄', n: 'licorne magie arc en ciel magique unicorn' },
+          { e: '🐝', n: 'abeille miel piqure fleur bee honey' },
+          { e: '🐛', n: 'chenille larve insecte nature bug caterpillar' },
+          { e: '🦋', n: 'papillon ailes couleur beaute metamorphosis butterfly' },
+          { e: '🐌', n: 'escargot lenteur coquille snail' },
+          { e: '🐞', n: 'coccinelle bete a bon dieu porte bonheur rouge ladybug' },
+          { e: '🐜', n: 'fourmi travail insecte petite ant' },
+          { e: '🪰', n: 'mouche insecte vol fly' },
+          { e: '🪲', n: 'scarabee insecte coleoptere beetle' },
+          { e: '🦗', n: 'grillon criquet saut chant cricket' },
+          { e: '🕷️', n: 'araignee toile halloween spider' },
+          { e: '🦂', n: 'scorpion venin desert zodiaque scorpion' },
+          { e: '🐢', n: 'tortue lenteur carapace turtle' },
+          { e: '🐍', n: 'serpent venin reptile snake' },
+          { e: '🦎', n: 'lezard reptile geckos lizard' },
+          { e: '🦖', n: 'tyrannosaure dinosaure jurassique t rex trex' },
+          { e: '🦕', n: 'sauropode dinosaure brontosaure dino' },
+          { e: '🐙', n: 'poulpe tentacules mer pieuvre octopus' },
+          { e: '🦑', n: 'calmar mer tentacules squid' },
+          { e: '🦐', n: 'crevette mer crustace shrimp' },
+          { e: '🦞', n: 'homard mer crustace pince lobster' },
+          { e: '🦀', n: 'crabe plage mer pinces crustace crab' },
+          { e: '🐡', n: 'poisson globe venin piquant blowfish' },
+          { e: '🐠', n: 'poisson tropical couleur ocean aquarium fish' },
+          { e: '🐟', n: 'poisson mer eau peche fish' },
+          { e: '🐬', n: 'dauphin ocean mer joueur dolphin' },
+          { e: '🐳', n: 'baleine ocean geant souffle whale' },
+          { e: '🦈', n: 'requin dents danger mer ocean shark' },
+          { e: '🐊', n: 'crocodile reptile mare marais dents croc' },
+          { e: '🐘', n: 'elephant trompe afrique geant savane elephant' },
+          { e: '🦏', n: 'rhinoceros corne safari rhino' },
+          { e: '🦒', n: 'girafe long cou afrique safari giraffe' },
+          { e: '🦘', n: 'kangourou saut poche australie kangaroo' },
+          { e: '🦔', n: 'herisson piquants mignon nature hedgehog' },
+          { e: '🌲', n: 'sapin arbre foret bois noel tree pine' },
+          { e: '🌳', n: 'arbre feuille verte nature foret tree dec' },
+          { e: '🌴', n: 'palmier plage soleil vacances iles palm' },
+          { e: '🌵', n: 'cactus desert piquant plante plante grasse cactus' },
+          { e: '🍀', n: 'trefle a quatre feuilles chance porte bonheur st patrick clover luck' },
+          { e: '🍁', n: 'feuille d erable automne canada feuille maple' },
+          { e: '🍂', n: 'feuilles mortes automne vent saison autumn' },
+          { e: '🍃', n: 'feuille au vent brise nature leaf' },
+          { e: '🍄', n: 'champignon sous bois mario champi mushroom' },
+          { e: '🌸', n: 'fleur de cerisier cerisier japon printemps rose flower cherry' },
+          { e: '🌹', n: 'rose rouge fleur amour st valentin romantique rose flower' },
+          { e: '🌺', n: 'hibiscus fleur hawaii exotique ile hibiscus' },
+          { e: '🌻', n: 'tournesol fleur soleil ete jaune sunflower' },
+          { e: '🌼', n: 'marguerite fleur jaune printemps blossom daisy' },
+          { e: '🌷', n: 'tulipe fleur hollande printemps tulip' },
+          { e: '🌱', n: 'pousse jeune plante germe ecologie debut seed sprout' },
+          { e: '☀️', n: 'soleil ensoleille ciel chaleur ete beau sun sunny' },
+          { e: '🌤️', n: 'soleil derriere petit nuage beau temps eclaircie' },
+          { e: '⛅', n: 'nuage soleil couvert mitige sun cloud' },
+          { e: '☁️', n: 'nuage gris temps couvert nuageux cloud' },
+          { e: '🌧️', n: 'pluie averse orage mauvais temps goute rain' },
+          { e: '⛈️', n: 'orage eclair pluie tonnerre tempete storm' },
+          { e: '🌩️', n: 'eclair foudre tonnerre orage thunder' },
+          { e: '🌨️', n: 'neige tempete de neige flocon hiver snow' },
+          { e: '❄️', n: 'flocon de neige hiver froid noel freeze snowflake' },
+          { e: '☃️', n: 'bonhomme de neige hiver noel froid snowman' },
+          { e: '🌪️', n: 'tornade cyclone vent tourbillon catastrophe tornado' },
+          { e: '🌈', n: 'arc en ciel pluie soleil couleurs pride rainbow' },
+          { e: '⭐', n: 'etoile doree brillant nuit nuit star' },
+          { e: '🌟', n: 'etoile brillante etincelle illumination glowing star' },
+          { e: '✨', n: 'etincelles magie proprete brillant sparkles shine' },
+          { e: '⚡', n: 'eclair electricite coup de foudre vitesse batterie energie flash lightning zap' },
+          { e: '☄️', n: 'comete espace etoile filante chute meteore comet' },
+          { e: '🪐', n: 'saturne planete anneaux espace galaxie cosmos planet' },
+          { e: '🌙', n: 'croissant de lune nuit sommeil reve lune moon' },
+          { e: '🌕', n: 'pleine lune nuit astronomie clair full moon' },
+          { e: '🌍', n: 'terre planete europe afrique monde globe earth' },
+          { e: '🔥', n: 'feu flamme incendie brulant chaud hype fire lourd lit' },
+          { e: '🌊', n: 'vague ocean surf mer tsunami eau wave water' }
+        ]
+      },
+      {
+        id: 'food',
+        name: 'Nourriture & Boissons',
+        icon: '🍔',
+        emojis: [
+          { e: '🍏', n: 'pomme verte fruit acidule green apple' },
+          { e: '🍎', n: 'pomme rouge fruit rouge apple' },
+          { e: '🍐', n: 'poire fruit verger pear' },
+          { e: '🍊', n: 'orange mandarine clementine fruit vitamine c' },
+          { e: '🍋', n: 'citron jaune agrume acide vitamine lemon' },
+          { e: '🍌', n: 'banane fruit singe banana' },
+          { e: '🍉', n: 'pasteque fruit ete frais tranche watermelon' },
+          { e: '🍇', n: 'raisin grappe vin fruit grapes' },
+          { e: '🍓', n: 'fraise fruit rouge sucre gourmand strawberry' },
+          { e: '🫐', n: 'myrtille baie fruit bleu antioxydant blueberry' },
+          { e: '🍒', n: 'cerises fruit rouge ete cherry' },
+          { e: '🍑', n: 'peche fruit juteux fesses peach' },
+          { e: '🥭', n: 'mangue fruit tropical sucre mango' },
+          { e: '🍍', n: 'ananas fruit exotique pineapple' },
+          { e: '🥥', n: 'noix de coco coco lait iles coconut' },
+          { e: '🥝', n: 'kiwi fruit vert zeste' },
+          { e: '🍅', n: 'tomate salade rouge legume fruit tomato' },
+          { e: '🥑', n: 'avocat guacamole bio avocado' },
+          { e: '🥦', n: 'brocoli legume vert sain sante broccoli' },
+          { e: '🌽', n: 'mais epis pop corn pop-corn corn' },
+          { e: '🥕', n: 'carotte lapin legume orange carrot' },
+          { e: '🥔', n: 'pomme de terre patate frites puree potato' },
+          { e: '🥐', n: 'croissant boulangerie petit dejeuner beurre france' },
+          { e: '🍞', n: 'pain mie boulangerie tranche bread' },
+          { e: '🥖', n: 'baguette pain francais boulangerie tradition baguette' },
+          { e: '🥨', n: 'pretzel bretzel alsace apero pretzel' },
+          { e: '🧀', n: 'fromage raclette gruyere emmental cheese souris' },
+          { e: '🥚', n: 'oeuf cuisine coquille egg' },
+          { e: '🍳', n: 'oeuf au plat poele cuisson petit dejeuner fried egg' },
+          { e: '🥞', n: 'pancakes crepes sirop d erable petit dej pile pancakes' },
+          { e: '🧇', n: 'gaufre dessert bruxelles sucre waffle' },
+          { e: '🥓', n: 'bacon lard grille viande petit dejeuner bacon' },
+          { e: '🥩', n: 'viande steak boeuf boucherie cru meat' },
+          { e: '🍗', n: 'cuisse de poulet poulet roti viande poultry' },
+          { e: '🍖', n: 'viande avec os barbecue repas meat bone' },
+          { e: '🌭', n: 'hot dog saucisse moutarde fast food hotdog' },
+          { e: '🍔', n: 'burger hamburger fast food cheeseburger frites repas burger' },
+          { e: '🍟', n: 'frites pommes frites fast food sauce frites ketchup mcdo fries' },
+          { e: '🍕', n: 'pizza italie fromage part pizza repas miam pizza' },
+          { e: '🥪', n: 'sandwich casse croute repas dej sandwich' },
+          { e: '🌮', n: 'taco mexicain tortilla mexique taco' },
+          { e: '🌯', n: 'burrito wrap mexicain kebab burrito' },
+          { e: '🥗', n: 'salade verte saine crudites repas salad' },
+          { e: '🍝', n: 'spaghetti pates italie bolognaise repas pasta' },
+          { e: '🍜', n: 'ramen nouilles japon soupe bol baguettes ramen noodles' },
+          { e: '🍲', n: 'pot au feu ragout marmite plat stew' },
+          { e: '🍛', n: 'curry plat riz epice curry' },
+          { e: '🍣', n: 'sushi poisson cru saumon riz japon sushi' },
+          { e: '🍱', n: 'bento plateau repas japonais box bento' },
+          { e: '🥟', n: 'ravioli gyoza dim sum vapeur chine dumpling' },
+          { e: '🍤', n: 'crevette tempura beignet friture shrimp' },
+          { e: '🍚', n: 'bol de riz blanc repas cereale rice' },
+          { e: '🍦', n: 'glace cornet vanille fraise dessert ice cream' },
+          { e: '🍧', n: 'glace rapee sorbet couleur shaved ice' },
+          { e: '🍨', n: 'coupe de glace dessert boule sorbet icecream' },
+          { e: '🍩', n: 'donut beignet sucre glaçage simpson doughnut' },
+          { e: '🍪', n: 'cookie biscuit chocolat pepites gateau cookie' },
+          { e: '🎂', n: 'gateau d anniversaire bougies fete cake happy birthday' },
+          { e: '🍰', n: 'part de gateau patisserie fraisier tarte cake' },
+          { e: '🧁', n: 'cupcake petit gateau glaçage cerise cupcake' },
+          { e: '🥧', n: 'tarte tourte crumble dessert pie' },
+          { e: '🍫', n: 'chocolat tablette cacao gourmandise chocolate' },
+          { e: '🍬', n: 'bonbon sucrerie emballage friandise candy' },
+          { e: '🍭', n: 'sucette bonbon fete foraine lollipop' },
+          { e: '🍮', n: 'flan creme caramel pudding dessert custard' },
+          { e: '🍿', n: 'pop corn mais cinema film seance popcorn' },
+          { e: '☕', n: 'cafe tasse expresso pause matin chaud coffee' },
+          { e: '🫖', n: 'theiere the infusion tea teapot' },
+          { e: '🍵', n: 'the vert matcha tasse japon teacup' },
+          { e: '🧃', n: 'brique de jus de fruit paille pamplemousse pomme juice box' },
+          { e: '🥤', n: 'gobelet paille soda boisson fraiche soda cup' },
+          { e: '🧋', n: 'bubble tea perles tapioca the au lait boba' },
+          { e: '🥛', n: 'verre de lait verre boisson milk' },
+          { e: '🍺', n: 'biere chope apero mousse fete beer brasserie' },
+          { e: '🍻', n: 'chopes de biere tchin sante trinquer apero toast beers cheers' },
+          { e: '🥂', n: 'flutes de champagne trinquer fete toast bulles celebration clinking' },
+          { e: '🍷', n: 'verre de vin vin rouge degustaion apero wine' },
+          { e: '🥃', n: 'verre de whisky alcool scotch on the rocks whiskey' },
+          { e: '🍸', n: 'cocktail martini olive fete soiree cocktail' },
+          { e: '🍹', n: 'cocktail tropical paille vacances plage soiree drink' },
+          { e: '🍾', n: 'bouteille de champagne bouchon fete celebration pop champ champagne' }
+        ]
+      },
+      {
+        id: 'activity',
+        name: 'Activités & Sports',
+        icon: '⚽',
+        emojis: [
+          { e: '⚽', n: 'ballon de foot football match but soccer football' },
+          { e: '🏀', n: 'ballon de basket basketball panier nba sport basket' },
+          { e: '🏈', n: 'ballon de football americain nfl rugby sport football' },
+          { e: '⚾', n: 'balle de baseball batte sport baseball' },
+          { e: '🎾', n: 'balle de tennis raquette roland garros match tennis' },
+          { e: '🏐', n: 'volleyball volley ballon plage volleyball' },
+          { e: '🏉', n: 'ballon de rugby ovalie essai xv rugby' },
+          { e: '🎱', n: 'boule de billard 8 noir jeu bar 8ball pool' },
+          { e: '🏓', n: 'ping pong tennis de table raquette sport pingpong' },
+          { e: '🏸', n: 'badminton volant raquette match' },
+          { e: '🥊', n: 'gant de boxe combat ring poing punch boxing glove' },
+          { e: '🥋', n: 'kimono judo karate arts martiaux ceinture martial arts' },
+          { e: '🎯', n: 'cible flechette dans le mille score bullseye target darts' },
+          { e: '⛳', n: 'trou de golf drapeau parcours sport golf' },
+          { e: '🎮', n: 'manette de jeu jeu video gamer gaming play console gamepad' },
+          { e: '🕹️', n: 'joystick arcade retro gaming borne' },
+          { e: '🎲', n: 'des a jouer jeu de societe hasard tirage dice game' },
+          { e: '🧩', n: 'piece de puzzle casse tete jeu enigme puzzle piece' },
+          { e: '♟️', n: 'pion echecs jeu d echec strategie chess pawn' },
+          { e: '🎭', n: 'masques de theatre comedie tragedie drame spectacle art drama' },
+          { e: '🎨', n: 'palette de peintre peinture couleur art dessin artiste paint' },
+          { e: '🎤', n: 'microphone chant karaoke musique micro concert vocal mic' },
+          { e: '🎧', n: 'casque audio musique ecouteurs son headphone track' },
+          { e: '🎼', n: 'partition de musique portee notes score' },
+          { e: '🎵', n: 'note de musique melodie air son musical note' },
+          { e: '🎶', n: 'notes de musique chant chanson notes' },
+          { e: '🎸', n: 'guitare rock musique instrument solo electrique guitar' },
+          { e: '🎹', n: 'clavier piano musique touches instrument piano keyboard' },
+          { e: '🎺', n: 'trompette jazz cuivre fanfare musique trumpet' },
+          { e: '🎻', n: 'violon musique classique archet corde violin' },
+          { e: '🥁', n: 'batterie tambour rythme musique percuteur drum' },
+          { e: '🎬', n: 'clap de cinema film tournage clapboard action movie film' },
+          { e: '🏆', n: 'trophee coupe or gagnant vainqueur victoire podium trophy win winner' },
+          { e: '🥇', n: 'medaille d or premier champion premiere place or gold medal' },
+          { e: '🥈', n: 'medaille d argent deuxieme place silver medal' },
+          { e: '🥉', n: 'medaille de bronze troisieme place bronze medal' },
+          { e: '🏅', n: 'medaille sport recompense honneur medal' },
+          { e: '🎖️', n: 'decoration militaire medaille ruban military medal' },
+          { e: '🎪', n: 'chapiteau cirque spectacle fete circus tent' },
+          { e: '🎟️', n: 'ticket entree billet spectacle cinema ticket' },
+          { e: '🎫', n: 'billet billet concert transport coupon pass' },
+          { e: '🛹', n: 'skateboard skate planche roulettes glisse skateboard' },
+          { e: '🚴', n: 'velo cycliste course bicyclette sport tour bike bicycle' },
+          { e: '🏋️', n: 'haltere musculation salle de sport fitness muscu weightlifting' },
+          { e: '🧗', n: 'escalade grimpe montagne prise climbing' },
+          { e: '🏄', n: 'surf surfeur vague plage ocean surfing' },
+          { e: '🏊', n: 'nage natation piscine mer nageur swimming' }
+        ]
+      },
+      {
+        id: 'objects',
+        name: 'Objets & Outils',
+        icon: '💡',
+        emojis: [
+          { e: '💡', n: 'ampoule idee lumiere flash inspiration trouvaille bulb idea' },
+          { e: '🔦', n: 'lampe torche lumiere eclaireur nuit flashlight' },
+          { e: '🕯️', n: 'bougie flamme cire eclairage romantique candle' },
+          { e: '📱', n: 'smartphone telephone portable iphone ecran appel message mobile phone' },
+          { e: '💻', n: 'ordinateur portable laptop pc informatique tech code dev laptop' },
+          { e: '🖥️', n: 'ordinateur de bureau ecran moniteur pc bureau desktop' },
+          { e: '⌨️', n: 'clavier frappe touches ecriture informatique keyboard' },
+          { e: '🖱️', n: 'souris d ordinateur clic informatique mouse' },
+          { e: '🖨️', n: 'imprimante impression papier document printer' },
+          { e: '💾', n: 'disquette sauvegarde vintage retro floppydisk save disk' },
+          { e: '📷', n: 'appareil photo photo cliche souvenir camera' },
+          { e: '📸', n: 'appareil photo avec flash prise de vue photo flash camera flash' },
+          { e: '📹', n: 'camescope video camera enregistrement film camcorder' },
+          { e: '🎥', n: 'camera de tournage cinema film plateau movie camera' },
+          { e: '📞', n: 'combine telephonique appel tel coup de fil call phone receiver' },
+          { e: '☎️', n: 'telephone fixe ancien sonnerie appel telephone' },
+          { e: '⏱️', n: 'chronometre temps record course sport chrono stopwatch' },
+          { e: '⏰', n: 'reveil alarme matin sonnerie horloge clock alarm' },
+          { e: '🕰️', n: 'horloge pendule temps heure mantel clock' },
+          { e: '⌛', n: 'sablier temps ecoule attente sable sablier hourglass' },
+          { e: '⏳', n: 'sablier en cours temps attente sablier sablier hourglass flowing' },
+          { e: '📡', n: 'antenne parabolique satellite signal reseau satellite' },
+          { e: '🔋', n: 'batterie pleine energie charge pile batterie battery' },
+          { e: '🪫', n: 'batterie faible dechargee panne rouge low battery' },
+          { e: '🔌', n: 'prise electrique connecteur cable branchement plug electric' },
+          { e: '💸', n: 'argent avec des ailes thunes depense perte envol cash dollars money fly' },
+          { e: '💵', n: 'billet de dollar argent liquide billet cash dollar' },
+          { e: '💶', n: 'billet en euro monnaie europe fric sous euro' },
+          { e: '💰', n: 'sac d argent richesse pactole tresor fortune bag money bag' },
+          { e: '🪙', n: 'piece de monnaie sous or argent coin' },
+          { e: '💳', n: 'carte bancaire carte bleue paiement credit achat card credit card' },
+          { e: '💎', n: 'diamant pierre precieuse bijou luxe brillance gem jewel diamond' },
+          { e: '⚖️', n: 'balance justice droit egalite equilibre balance scale' },
+          { e: '🧰', n: 'boite a outils reparation bricolage toolbox' },
+          { e: '🔧', n: 'cle a molette outil reparation mecanique wrench' },
+          { e: '🔨', n: 'marteau clou bricolage outil frapper hammer' },
+          { e: '⚒️', n: 'marteau et pic mine artisanat ouvrier pickaxe' },
+          { e: '🛠️', n: 'outils cles marteau reparation construction atelier tools' },
+          { e: '⛏️', n: 'pioche mine extraction minecraft outil pick' },
+          { e: '🪓', n: 'hache coupe bois bucheron axe' },
+          { e: '⚙️', n: 'engrenage reglages parametres mecanisme settings options gear' },
+          { e: '🧲', n: 'aimant attraction fer attraction magnetique magnet' },
+          { e: '💣', n: 'bombe explosion meche dynamite danger tnt bomb' },
+          { e: '🧨', n: 'petard feu d artifice explosion fete dynamite firecracker' },
+          { e: '🔪', n: 'couteau de cuisine tranchant cuisine cuisinier couteau knife' },
+          { e: '🗡️', n: 'dague poignard epee arme combat dagger' },
+          { e: '⚔️', n: 'epees croisees duel combat chevalier bataille swords' },
+          { e: '🛡️', n: 'bouclier protection defense securite armure shield' },
+          { e: '🔮', n: 'boule de cristal voyance divination futur magie crystal ball' },
+          { e: '🪄', n: 'baguette magique sortilege magie enchanteur wand magic' },
+          { e: '🧿', n: 'oeil bleu amulette protection mauvais oeil nazar' },
+          { e: '💊', n: 'pilule medicament pharmacie gelule drogue sante pill' },
+          { e: '💉', n: 'seringue vaccin injection prise de sang docteur hopital syringe' },
+          { e: '🩸', n: 'goutte de sang don du sang blessure blood drop' },
+          { e: '🩺', n: 'stethoscope medecin docteur examen battement coeur stethoscope' },
+          { e: '🔑', n: 'cle ouverture serrure mot de passe clef secret key' },
+          { e: '🗝️', n: 'cle ancienne coffre mystere serrure old key' },
+          { e: '🔒', n: 'cadenas ferme securite verrouille prive bloque lock locked' },
+          { e: '🔓', n: 'cadenas ouvert accessible libre deverrouille unlock unlocked' },
+          { e: '🎁', n: 'cadeau present noel anniversaire paquet fete gift present' },
+          { e: '🎈', n: 'ballon de baudruche rouge fete anniversaire helium balloon' },
+          { e: '🎉', n: 'cotillons confettis fete celebration tada bravo party fiesta tada' },
+          { e: '🎊', n: 'boule a confettis fete explosion joie confetti' },
+          { e: '✉️', n: 'enveloppe courrier message lettre mail poste email envelope' },
+          { e: '📦', n: 'colis carton livraison carton emballage colis paquet box package' },
+          { e: '🏷️', n: 'etiquette prix tag marque label' },
+          { e: '📰', n: 'journal presse journal quotidien nouvelles papier info newspaper' },
+          { e: '📚', n: 'pile de livres etudes bibliotheque lecture savoir ecole books' },
+          { e: '📖', n: 'livre ouvert lecture roman histoire pages book' },
+          { e: '🔖', n: 'marque page lecture signet favori bookmark' },
+          { e: '🔗', n: 'maillon chaine lien url hyperlien connexion link' },
+          { e: '📎', n: 'trombone piece jointe document attache paperclip' },
+          { e: '📌', n: 'punaise epingle fixer tableau rappel pin pushpin' },
+          { e: '📍', n: 'epingle ronde localisation repere adresse gps map pin round' },
+          { e: '✂️', n: 'ciseaux coupe decoupage couture scissors' },
+          { e: '🖊️', n: 'stylo ecriture encre stylo bille pen' },
+          { e: '📝', n: 'bloc notes crayon ecriture memo note devoir texte memo' },
+          { e: '✏️', n: 'crayon de papier papier dessin mine ecriture pencil' },
+          { e: '🔍', n: 'loupe recherche zoom enquete inspecter chercher search find' },
+          { e: '🔎', n: 'loupe orientee vers la droite recherche zoom search' }
+        ]
+      },
+      {
+        id: 'symbols',
+        name: 'Symboles & Panneaux',
+        icon: '✨',
+        emojis: [
+          { e: '✨', n: 'etincelles paillettes brille etoile magique nouveau propre sparkles' },
+          { e: '⭐', n: 'etoile doree favori favoris note evaluation 5 etoiles star' },
+          { e: '💯', n: 'cent pour cent 100 parfait sans faute reussite total valider 100' },
+          { e: '💢', n: 'symbole colere enervement manga veines anger' },
+          { e: '💥', n: 'collision explosion bang boom choc collision' },
+          { e: '💫', n: 'tourbillon etoiles etourdissement magie dizzy' },
+          { e: '💦', n: 'gouttes de sueur eau giclure transpiration sweat drops' },
+          { e: '💨', n: 'nuage de poussiere fuite rapide vitesse vent cours dash' },
+          { e: '💬', n: 'bulle de dialogue message sms chat discussion reponse bulle speech' },
+          { e: '💭', n: 'bulle de pensee reve reflexion imaginer pensee thought' },
+          { e: '💤', n: 'sommeil ronflement sieste zzz nuit dort fatigue zzz' },
+          { e: '⚠️', n: 'panneau attention danger avertissement alerte warning caution' },
+          { e: '🚫', n: 'interdit sens interdit panneau stop proscrit non refuse prohibited' },
+          { e: '⛔', n: 'sens interdit route circulation passez pas bloque no entry' },
+          { e: '☢️', n: 'radioactif nucleaire danger toxique radiation radioactive' },
+          { e: '☣️', n: 'danger biologique biohazard virus danger epidemie biohazard' },
+          { e: '⬆️', n: 'fleche vers le haut up monter arrow up' },
+          { e: '⬇️', n: 'fleche vers le bas down descendre arrow down' },
+          { e: '⬅️', n: 'fleche vers la gauche left arriere arrow left' },
+          { e: '➡️', n: 'fleche vers la droite right suivant avancer arrow right' },
+          { e: '↩️', n: 'fleche retour courbee retour return replay left arrow curving' },
+          { e: '🔄', n: 'fleches tourner actualiser rafraichir recharger sync reload' },
+          { e: '🔁', n: 'repeter en boucle repeat loop' },
+          { e: '🔀', n: 'lecture aleatoire shuffle melanger mix' },
+          { e: '▶️', n: 'bouton play lecture demarrer play' },
+          { e: '⏸️', n: 'bouton pause pause arret temporaire pause' },
+          { e: '⏹️', n: 'bouton stop arreter stop' },
+          { e: '⏺️', n: 'bouton rec enregistrement enregistrer record' },
+          { e: '❌', n: 'croix rouge croix echec non refuse supprimer annuler faux cross x' },
+          { e: '✅', n: 'coche verte valide reussi ok confirmation oui check checkmark' },
+          { e: '✔️', n: 'coche noire check valide fait' },
+          { e: '❎', n: 'croix carre vert bouton cancel no' },
+          { e: '❓', n: 'point d interrogation question interrogation quoi comment aide question mark' },
+          { e: '❔', n: 'point d interrogation blanc interrogation aide' },
+          { e: '❗', n: 'point d exclamation exclamation attention important alerte exclamation mark' },
+          { e: '❕', n: 'point d exclamation blanc exclamation' },
+          { e: '‼️', n: 'double point d exclamation choc urgent alerte bang' },
+          { e: '⁉️', n: 'point d exclamation et interrogation surprise quoi interrobang' },
+          { e: '🆒', n: 'cool mot bouton cool style' },
+          { e: '🆗', n: 'ok bouton d accord valide valider ok button' },
+          { e: '🆕', n: 'nouveau bouton new nouveaute fraicheur' },
+          { e: '🆙', n: 'up bouton niveau superieur up' },
+          { e: '🆘', n: 'sos aide detresse secours urgence emergency' },
+          { e: '🚀', n: 'fusee decollage en route vitesse to the moon rapide space rocket' },
+          { e: '🔴', n: 'cercle rouge bouton rond point red circle' },
+          { e: '🟢', n: 'cercle vert bouton marche connecte active en ligne green circle' },
+          { e: '🟡', n: 'cercle jaune bouton attente absent yellow circle' },
+          { e: '🔵', n: 'cercle bleu rond point information blue circle' },
+          { e: '🟣', n: 'cercle violet rond purple circle' },
+          { e: '⚫', n: 'cercle noir point black circle' },
+          { e: '⚪', n: 'cercle blanc rond white circle' }
+        ]
+      },
+      {
+        id: 'flags',
+        name: 'Drapeaux',
+        icon: '🏁',
+        emojis: [
+          { e: '🏁', n: 'drapeau a damier arrivee course formule 1 depart vainqueur fin finish flag checkered' },
+          { e: '🚩', n: 'drapeau rouge red flag alerte avertissement golf' },
+          { e: '🎌', n: 'drapeaux japonais fete crossed flags' },
+          { e: '🏴', n: 'drapeau noir piraterie black flag' },
+          { e: '🏳️', n: 'drapeau blanc paix capitulation surrender white flag' },
+          { e: '🏳️‍🌈', n: 'drapeau arc en ciel lgbt pride fierte gay love rainbow flag' },
+          { e: '🏳️‍⚧️', n: 'drapeau transgenre trans transidentite fierte trans flag' },
+          { e: '🏴‍☠️', n: 'drapeau pirate pavillon noir corsaire pirate skull' },
+          { e: '🇫🇷', n: 'drapeau france francais bleu blanc rouge french flag fr' },
+          { e: '🇧🇪', n: 'drapeau belgique belge bruxelles be' },
+          { e: '🇨🇭', n: 'drapeau suisse suisse croix rouge bern ch' },
+          { e: '🇨🇦', n: 'drapeau canada erable quebec can' },
+          { e: '🇩🇿', n: 'drapeau algerie algerien dz alger' },
+          { e: '🇲🇦', n: 'drapeau maroc marocain rabat casablanca ma' },
+          { e: '🇹🇳', n: 'drapeau tunisie tunisien tunis tn' },
+          { e: '🇬🇧', n: 'drapeau royaume uni angleterre anglais union jack uk gb' },
+          { e: '🇺🇸', n: 'drapeau etats unis usa amerique etoiles banniere us' },
+          { e: '🇩🇪', n: 'drapeau allemagne allemand berlin de' },
+          { e: '🇪🇸', n: 'drapeau espagne espagnol madrid es' },
+          { e: '🇮🇹', n: 'drapeau italie italien rome it' },
+          { e: '🇵🇹', n: 'drapeau portugal portugais lisbonne pt' },
+          { e: '🇧🇷', n: 'drapeau bresil bresilien rio br' },
+          { e: '🇯🇵', n: 'drapeau japon japonais tokyo soleil levant jp' },
+          { e: '🇰🇷', n: 'drapeau coree du sud seoul korean kr' },
+          { e: '🇨🇳', n: 'drapeau chine chinois beijing cn' },
+          { e: '🇦🇺', n: 'drapeau australie sydney au' },
+          { e: '🇺🇦', n: 'drapeau ukraine ukrainien kiev ua' }
+        ]
+      }
+    ];
+
+    function toggleReactionGrid(anchorBtn, c, scope, scopeId, msgId) {
       let grid = document.getElementById('reactionGridPanel');
       if (grid) { grid.remove(); return; }
+
       grid = document.createElement('div');
       grid.id = 'reactionGridPanel';
-      grid.className = 'emoji-grid-panel';
+      grid.className = 'emoji-picker-container';
 
-      extraEmojis.forEach(emoji => {
-        const b = document.createElement('button');
-        b.textContent = emoji;
-        b.onclick = (e) => {
+      grid.innerHTML = `
+        <div class="emoji-picker-header">
+          <div class="emoji-search-wrapper">
+            <span class="emoji-search-icon">🔍</span>
+            <input type="text" class="emoji-search-input" id="emojiSearchInput" placeholder="Rechercher un émoji..." autocomplete="off" />
+          </div>
+          <div class="emoji-tabs-bar" id="emojiTabsBar">
+            <button type="button" class="emoji-tab-btn active" data-cat="all" title="Tous les émojis">⭐</button>
+            ${ALL_EMOJIS_DATA.map(cat => `<button type="button" class="emoji-tab-btn" data-cat="${cat.id}" title="${escapeHtml(cat.name)}">${cat.icon}</button>`).join('')}
+          </div>
+        </div>
+        <div class="emoji-picker-body" id="emojiPickerBody"></div>
+        <form class="emoji-picker-footer" id="emojiCustomForm">
+          <input type="text" class="emoji-custom-input" id="emojiCustomInput" placeholder="Ou tape/colle n'importe quel émoji..." maxlength="16" />
+          <button type="submit" class="emoji-custom-btn" title="Réagir avec cet émoji">Ajouter</button>
+        </form>
+      `;
+
+      const pickerBody = grid.querySelector('#emojiPickerBody');
+      const searchInput = grid.querySelector('#emojiSearchInput');
+      const tabsBar = grid.querySelector('#emojiTabsBar');
+      const customForm = grid.querySelector('#emojiCustomForm');
+      const customInput = grid.querySelector('#emojiCustomInput');
+
+      function renderCategories(filterText = '', targetCat = 'all') {
+        pickerBody.innerHTML = '';
+        const q = filterText.trim().toLowerCase();
+
+        let totalMatches = 0;
+
+        ALL_EMOJIS_DATA.forEach(cat => {
+          if (targetCat !== 'all' && cat.id !== targetCat) return;
+
+          const matchedEmojis = cat.emojis.filter(item => {
+            if (!q) return true;
+            return item.e.includes(q) || item.n.includes(q) || cat.name.toLowerCase().includes(q);
+          });
+
+          if (matchedEmojis.length === 0) return;
+          totalMatches += matchedEmojis.length;
+
+          const section = document.createElement('div');
+          section.className = 'emoji-category-section';
+          section.dataset.catId = cat.id;
+
+          const title = document.createElement('div');
+          title.className = 'emoji-category-title';
+          title.textContent = cat.name;
+          section.appendChild(title);
+
+          const gridEl = document.createElement('div');
+          gridEl.className = 'emoji-grid';
+
+          matchedEmojis.forEach(item => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'emoji-cell';
+            btn.textContent = item.e;
+            btn.title = item.e + ' ' + item.n.split(' ')[0];
+            btn.onclick = (e) => {
+              e.stopPropagation();
+              toggleMessageReaction(c, scope, scopeId, msgId, item.e);
+              closeReactionPicker();
+            };
+            gridEl.appendChild(btn);
+          });
+
+          section.appendChild(gridEl);
+          pickerBody.appendChild(section);
+        });
+
+        if (totalMatches === 0) {
+          pickerBody.innerHTML = '<div class="emoji-empty-search">Aucun émoji trouvé pour « ' + escapeHtml(q) + ' »</div>';
+        }
+      }
+
+      let currentTab = 'all';
+      renderCategories('', currentTab);
+
+      // Recherche en direct
+      searchInput.oninput = () => {
+        const q = searchInput.value;
+        if (q) {
+          tabsBar.querySelectorAll('.emoji-tab-btn').forEach(b => b.classList.remove('active'));
+          renderCategories(q, 'all');
+        } else {
+          const activeBtn = tabsBar.querySelector(`.emoji-tab-btn[data-cat="${currentTab}"]`);
+          if (activeBtn) activeBtn.classList.add('active');
+          renderCategories('', currentTab);
+        }
+      };
+
+      // Clics sur onglets de catégories
+      tabsBar.querySelectorAll('.emoji-tab-btn').forEach(btn => {
+        btn.onclick = (e) => {
           e.stopPropagation();
-          toggleMessageReaction(c, scope, scopeId, msgId, emoji);
-          closeReactionPicker();
+          tabsBar.querySelectorAll('.emoji-tab-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentTab = btn.dataset.cat;
+          searchInput.value = '';
+          renderCategories('', currentTab);
+          pickerBody.scrollTop = 0;
         };
-        grid.appendChild(b);
       });
 
+      // Formulaire émoji personnalisé ou collé
+      customForm.onsubmit = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const customVal = customInput.value.trim().slice(0, 16);
+        if (customVal) {
+          toggleMessageReaction(c, scope, scopeId, msgId, customVal);
+          closeReactionPicker();
+        }
+      };
+
       document.body.appendChild(grid);
+
+      // Calcul de la position optimale à l'écran
       const rect = anchorBtn.getBoundingClientRect();
       const gridRect = grid.getBoundingClientRect();
-      let top = rect.bottom + 6;
-      if (top + gridRect.height > window.innerHeight - 10) top = rect.top - gridRect.height - 6;
+      let top = rect.bottom + 8;
+      if (top + gridRect.height > window.innerHeight - 10) {
+        top = rect.top - gridRect.height - 8;
+      }
+      if (top < 10) top = 10;
+
       let left = rect.right - gridRect.width;
       if (left < 10) left = 10;
+      if (left + gridRect.width > window.innerWidth - 10) {
+        left = window.innerWidth - gridRect.width - 10;
+      }
+
       grid.style.top = `${top}px`;
       grid.style.left = `${left}px`;
+
+      // Focus sur la recherche sans faire scroller
+      setTimeout(() => {
+        try { searchInput.focus({ preventScroll: true }); } catch (err) {}
+      }, 50);
     }
 
     // Fermeture automatique au clic extérieur ou touche Échap
@@ -7257,6 +8428,9 @@
       <div class="p-avatar">${avatarOrInitials(avatar, username, 72)}</div>
       <h3>${escapeHtml(username)}</h3>
       <div class="p-fp">${escapeHtml(fp)}</div>
+      <button id="btnProfileToggleMute" class="btn-sm" style="width:100%;margin:10px 0 4px;display:flex;align-items:center;justify-content:center;gap:6px;${isUserMuted(fp) ? 'color:var(--alert);border-color:var(--alert);' : ''}">
+        ${isUserMuted(fp) ? '🔔 Réactiver les notifications de cet utilisateur' : '🔕 Rendre cet utilisateur muet'}
+      </button>
       ${bio ? `<div class="p-bio">${escapeHtml(bio)}</div>` : `<div class="p-bio" style="color:var(--text-dim);font-style:italic;">Aucune description.</div>`}
       ${shareServerList ? `<div class="p-servers"><label style="display:block;font-size:11px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px;">Serveurs en commun</label>
         ${commonServers.length ? commonServers.map(cc => `<span class="srv-chip">${cc.icon ? cc.icon + ' ' : ''}${escapeHtml(cc.name)}</span>`).join('') : '<span class="mp-empty">Aucun serveur de salons en commun visible.</span>'}
@@ -7271,6 +8445,14 @@
       <div class="modal-actions"><button class="btn-sm" onclick="closeModal()">Fermer</button></div>
     </div>
   `);
+      const btnProfileMute = document.getElementById('btnProfileToggleMute');
+      if (btnProfileMute) {
+        btnProfileMute.onclick = () => {
+          toggleMuteUser(fp);
+          closeModal();
+          openUserProfileMenu(fp, username, avatar, memberInfo);
+        };
+      }
       document.querySelectorAll('.p-mp-targets [data-key]').forEach(btn => btn.onclick = () => {
         const cc = conns.get(btn.dataset.key);
         if (cc && cc.ws && cc.ws.readyState === WebSocket.OPEN) {
@@ -7300,9 +8482,14 @@
       openModal(`
     <h3>Ajouter ${kindLabel}</h3>
     <p class="sub">Entre l'adresse IP (ou nom d'hôte) et le port, comme pour rejoindre un serveur Minecraft.</p>
-    <div class="step"><label>Adresse IP / hôte</label><input id="srvHost" placeholder="ex: 92.184.XX.XX ou localhost"></div>
+    <div style="margin-bottom:12px;">
+      <button type="button" class="btn-sm" id="btnFillDefaultServer" style="background:rgba(79,224,196,0.12);color:var(--signal);border:1px solid rgba(79,224,196,0.3);padding:6px 12px;border-radius:6px;cursor:pointer;">
+        ★ Remplir avec le serveur par défaut (msg1.playnix.fr)
+      </button>
+    </div>
+    <div class="step"><label>Adresse IP / hôte</label><input id="srvHost" placeholder="ex: msg1.playnix.fr ou localhost"></div>
     <div class="step"><label>Port</label><input id="srvPort" type="number" value="${kindHint === 'mp' ? 25580 : 25580}"></div>
-    <div class="step"><label>Nom à afficher (facultatif)</label><input id="srvLabel" placeholder="ex: Le Repaire"></div>
+    <div class="step"><label>Nom à afficher (facultatif)</label><input id="srvLabel" placeholder="ex: msg1.playnix.fr"></div>
     <div class="modal-actions">
       <button class="btn-sm" onclick="closeModal()">Annuler</button>
       <button class="btn-sm primary" id="btnDoConnect">Se connecter</button>
@@ -7313,6 +8500,14 @@
       <button class="btn-sm" data-h="${escapeHtml(s.host)}" data-p="${s.port}" data-l="${escapeHtml(s.label)}" data-k="${escapeHtml(s.kindHint || kindHint)}" onclick="quickConnect(this)">Rejoindre</button></div>`).join('')}
     </div>` : ''}
   `);
+      const fillBtn = document.getElementById('btnFillDefaultServer');
+      if (fillBtn) {
+        fillBtn.onclick = () => {
+          document.getElementById('srvHost').value = 'msg1.playnix.fr';
+          document.getElementById('srvPort').value = '25580';
+          document.getElementById('srvLabel').value = 'msg1.playnix.fr';
+        };
+      }
       document.getElementById('btnDoConnect').onclick = async () => {
         const host = document.getElementById('srvHost').value.trim();
         const port = parseInt(document.getElementById('srvPort').value, 10);
@@ -7337,10 +8532,17 @@
       selectServer(connKey(host, port, kindHint));
       closeModal();
     };
-    async function reconnectSavedServers() { for (const s of myServerList()) connectToServer(s.host, s.port, s.label, s.kindHint, s.myDisplayName); }
+    async function reconnectSavedServers() {
+      const list = myServerList();
+      for (const s of list) connectToServer(s.host, s.port, s.label, s.kindHint, s.myDisplayName);
+      const firstNonDef = list.find(s => !isDefaultServer(s));
+      if (!activeKey && firstNonDef) {
+        selectServer(connKey(firstNonDef.host, firstNonDef.port, firstNonDef.kindHint));
+      }
+    }
 
     /* ================= ANNUAIRE CENTRAL DES SERVEURS ================= */
-    const DEFAULT_DIRECTORY_URL = 'http://msg.playnix.fr';
+    const DEFAULT_DIRECTORY_URL = 'https://msg.playnix.fr';
 
     function getDirectorySources() {
       try {
@@ -7363,7 +8565,7 @@
     function saveDirectorySources(list) {
       try {
         localStorage.setItem('msg_server_directories', JSON.stringify(list));
-      } catch (e) {}
+      } catch (e) { }
     }
 
     function getActiveDirectorySource() {
@@ -7376,7 +8578,7 @@
     function setActiveDirectorySource(url) {
       try {
         localStorage.setItem('msg_server_dir_active', url);
-      } catch (e) {}
+      } catch (e) { }
     }
 
     function normalizeDirectoryUrl(input) {
@@ -7421,7 +8623,7 @@
           <div style="display:flex;align-items:center;justify-content:space-between;">
             <div>
               <h3 style="margin:0 0 4px;font-size:18px;">🧭 Annuaire des serveurs</h3>
-              <p class="sub" style="margin:0;">Découvre et rejoins des serveurs publics propulsés par <b>serverListe.js</b></p>
+              <p class="sub" style="margin:0;">Découvre et rejoins des serveurs publics propulsés par <b>MSGserverListe</b></p>
             </div>
             <button class="icon-btn" onclick="closeModal()" title="Fermer" style="font-size:16px;">✕</button>
           </div>
@@ -7639,7 +8841,7 @@
       loadDirectoryData();
     }
 
-    window.quickJoinFromDirectory = async function(btn) {
+    window.quickJoinFromDirectory = async function (btn) {
       const host = btn.dataset.host;
       const port = parseInt(btn.dataset.port, 10);
       const name = btn.dataset.name || `${host}:${port}`;
