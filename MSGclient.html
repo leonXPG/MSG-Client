@@ -3975,7 +3975,7 @@
 
     function openSettings() {
       const c = conns.get(activeKey);
-      const allServers = [...conns.values()].filter(cc => cc.type === 'channels' && (!isDefaultServer(cc) || cc.connected));
+      const allServers = [...conns.values()].filter(cc => cc.type === 'channels');
       const allBlocked = [];
       for (const cc of conns.values()) {
         for (const b of (cc.blocked || [])) {
@@ -4198,19 +4198,16 @@
         const text = c.everConnected
           ? `Connexion au serveur perdue (${detail}).`
           : `Impossible de joindre ${c.host}:${c.port} (${detail}). Vérifie que le serveur tourne et que le port est correct.`;
-        if (c.type === 'channels' && !isDefaultServer(c)) addSystemMessage(c, c.activeChannel, text);
-        if (isDefaultServer(c) && activeKey === c.key) {
-          const another = [...conns.values()].find(other => other.connected);
-          if (another) {
-            selectServer(another.key);
-          } else {
-            activeKey = null;
-            renderSidebar();
-            renderMain();
-          }
-        }
+        if (c.type === 'channels') addSystemMessage(c, c.activeChannel, text);
         renderRail();
-        if (activeKey === c.key) renderMain();
+        if (activeKey === c.key) {
+          renderSidebar();
+          renderMain();
+        }
+        // Reconnexion automatique rapide si la connexion est interrompue
+        setTimeout(() => {
+          if (!c.connected) retryConnection(c);
+        }, 2000);
       });
       ws.addEventListener('error', () => { });
     }
@@ -4238,16 +4235,26 @@
       renderRail();
     }
 
-    /* Reconnexion automatique en arrière-plan pour les serveurs par défaut silencieux/invisibles */
+    /* Reconnexion automatique en arrière-plan pour tous les serveurs déconnectés */
     setInterval(() => {
       for (const c of conns.values()) {
-        if (isDefaultServer(c) && !c.connected) {
+        if (!c.connected) {
           retryConnection(c);
         }
       }
-    }, 10000);
+    }, 5000);
+
+    /* Keep-alive (ping régulier) pour empêcher les box, routeurs et proxies de fermer la connexion TCP */
+    setInterval(() => {
+      for (const c of conns.values()) {
+        if (c.connected && c.ws && c.ws.readyState === WebSocket.OPEN) {
+          try { c.ws.send(JSON.stringify({ t: 'ping' })); } catch (e) {}
+        }
+      }
+    }, 25000);
 
     async function handleServerMessage(c, msg) {
+      if (msg.t === 'pong') return;
       if (msg.t === 'auth-challenge') {
         // Le serveur ne nous fait pas confiance sur parole : on doit prouver qu'on possède
         // bien la clé privée correspondant à la clé publique qu'on a annoncée, en dérivant
@@ -5805,8 +5812,8 @@
     /* ================= UI ================= */
     function renderRail() {
       const rail = document.getElementById('rail');
-      const channelsConns = [...conns.values()].filter(c => c.type !== 'mp' && (!isDefaultServer(c) || c.connected));
-      const mpConns = [...conns.values()].filter(c => c.type === 'mp' && (!isDefaultServer(c) || c.connected));
+      const channelsConns = [...conns.values()].filter(c => c.type !== 'mp');
+      const mpConns = [...conns.values()].filter(c => c.type === 'mp');
 
       function item(c) {
         const label = c.icon || escapeHtml(c.label.slice(0, 3).toUpperCase());
@@ -5825,7 +5832,7 @@
     </div>`;
       }
 
-      const unreachableCount = [...conns.values()].filter(c => !c.connected && !isDefaultServer(c)).length;
+      const unreachableCount = [...conns.values()].filter(c => !c.connected).length;
       const noServersAtAll = !channelsConns.length && !mpConns.length;
       rail.innerHTML = `
     <div class="rail-item refresh-btn" id="btnRefreshServers" title="Actualiser la liste des serveurs">
@@ -5870,7 +5877,11 @@
           el.onclick = () => selectServer(el.dataset.key);
         } else {
           el.onclick = () => {
-            if (isDefaultServer(c)) return;
+            if (isDefaultServer(c)) {
+              selectServer(el.dataset.key);
+              retryConnection(c);
+              return;
+            }
             if (window.confirm(`"${c.name}" (${c.host}:${c.port}) est injoignable actuellement.\n\nLe retirer de ta liste de serveurs ?\n(tu peux aussi cliquer sur ↻ pour réessayer de le joindre sans le supprimer)`)) {
               removeServerFromList(c);
             }
@@ -8535,9 +8546,9 @@
     async function reconnectSavedServers() {
       const list = myServerList();
       for (const s of list) connectToServer(s.host, s.port, s.label, s.kindHint, s.myDisplayName);
-      const firstNonDef = list.find(s => !isDefaultServer(s));
-      if (!activeKey && firstNonDef) {
-        selectServer(connKey(firstNonDef.host, firstNonDef.port, firstNonDef.kindHint));
+      if (!activeKey && list.length > 0) {
+        const preferred = list.find(s => !isDefaultServer(s)) || list[0];
+        selectServer(connKey(preferred.host, preferred.port, preferred.kindHint));
       }
     }
 
